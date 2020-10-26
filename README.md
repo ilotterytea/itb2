@@ -1,4 +1,5 @@
 ![Poster](http://xdlottery.7m.pl/assets/GitHub-xrpsxBotREADME.png)
+### ![Python 3.8](https://img.shields.io/badge/-Python%203.8-informational) ![Twitch Bot](https://img.shields.io/badge/-Twitch%20Bot-blueviolet)
 ## Установка бота ![peepoChat (by saylermiu)](https://cdn.betterttv.net/emote/5e1bd08688e62a5f14dc6316/1x)
 Установить бота на свой канал очень просто. Нужно изменить пару строк в начале файла **bot.py**:
 ```Python
