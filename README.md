@@ -1,4 +1,4 @@
-![Poster](http://xdlottery.7m.pl/assets/GitHub-xrpsxBotREADME.png)
+![Poster](http://xdlottery.7m.pl/files/xrpsxbot-github/readme/GitHub-xrpsxBot-PreviewREADME.png)
 ### ![License MIT](https://img.shields.io/badge/License-MIT-C5D2EC) ![Status Beta](https://img.shields.io/badge/Status-βeta-E9DACB) ![Python 3.8](https://img.shields.io/badge/-Python%203.8-informational) ![Twitch Bot](https://img.shields.io/badge/-Twitch%20Bot-blueviolet)
 ## Установка бота ![peepoChat (by saylermiu)](https://cdn.betterttv.net/emote/5e1bd08688e62a5f14dc6316/1x)
 Настроить бота под себя очень просто. Нужно изменить пару строк в файле **config.py**:
@@ -44,9 +44,18 @@
 +key | Шанс сгенерированного ключа быть рабочим составляет 0.1%, но не ноль процентов ![peepoHACKER (by Reett__)](https://cdn.betterttv.net/emote/5f01110da2ac620530361e51/1x) | ![+key](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-key.png)
 +info | Информация о боте ![peepoShyH (by jessdesiderio)](https://cdn.betterttv.net/emote/5f77f2d8ce8bc74a942433ac/1x) | ![+info](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-info.png)
 +dethlette | Русская Рулетка на смерть ![sadCat (by Rikali)](https://cdn.betterttv.net/emote/5f32ab1dafb6965d6e7b71f7/1x) | ![+dethlette](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-dethlette.png)
-+randomsong | Рандомная музыка из [Newgrounds](https://www.newgrounds.com/audio) ![pepeJAM (by ShakoTheWacko)](https://cdn.betterttv.net/emote/5b77ac3af7bddc567b1d5fb2/1x) `(ID и ссылка прилагаются)` | ![+randomsong](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-randomsong.png)
++rsong | Присылаем случайную музыку из [Newgrounds](https://www.newgrounds.com/audio) ![pepeJAM (by ShakoTheWacko)](https://cdn.betterttv.net/emote/5b77ac3af7bddc567b1d5fb2/1x) `(ID и ссылка прилагаются)` | ![+randomsong](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-randomsong.png)
++song `Newgrounds Audio ID` | Ищем музыку из [Newgrounds](https://www.newgrounds.com/audio) по ID, который вы указали в сообщении ![pepeJaMi (by Hollowoff)](https://cdn.betterttv.net/emote/5e53081508b4447d56a95abd/1x) | ![+randomsong](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-randomsong.png)
 @xrpsxbot | ![Flushed (by PWGood)](https://cdn.betterttv.net/emote/5f1abc066f378244660150eb/1x) | ![xrpsxbot](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-xrpsxBot.png)
 > Для команды `+dethlette` боту нужно дать режим модератора, чтобы он мог временно отстранять проигравших на **1 мин. 30 сек**.
+### Стандартные команды для игры [Geometry Dash](https://store.steampowered.com/app/322170) ![]()
+Команды | Применение | Как это работает?
+---|---|---
++user `Никнейм из игры` | Посмотреть информацию о игроке из игры ![Account Request Button](http://xdlottery.7m.pl/files/buttons/button-gd-accountrequest.png) | ![+user](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-user.png)
++level `ID Уровня` | Показать указанный уровень из игры ![Hard Difficulty Button](http://xdlottery.7m.pl/files/buttons/button-gd-harddiff.png) | ![+level](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-level.png)
++daily | Ежедневный уровень ![Daily Level Button](http://xdlottery.7m.pl/files/buttons/button-gd-dailylevel.png) | ![+daily](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-daily.png)
++weekly | Eженедельный демонический уровень ![Weekly Level Button](http://xdlottery.7m.pl/files/buttons/button-gd-weeklydemon.png) | ![+weekly](http://xdlottery.7m.pl/files/xrpsxbot-github/Github-xrpsxBot-weekly.png)
+> Спасибо Neptex за библиотеку [**GeometryPy**](https://github.com/Neptex/GeometryPy), с которой работают эти прекрасные команды сверху!
 
 ## Как добавить свою команду и изменить префикс? ![monkaHmm (by DigitalWelt_Original)](https://cdn.betterttv.net/emote/5f28433c713a6144748acd1e/1x)
 Добавить команду очень просто! Вставьте этот текст в конце **def Commands()** и измените его в файле **bot.py**:
