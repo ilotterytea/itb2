@@ -1,4 +1,4 @@
-![Poster](http://xdlottery.7m.pl/files/xrpsxbot-github/readme/GitHub-xrpsxBot-PreviewREADME-s.png)
+![Poster](http://xdlottery.7m.pl/files/xrpsxbot-github/readme/GitHub-xrpsxBot-PreviewREADME-dark.png)
 ### ![License MIT](https://img.shields.io/badge/License-MIT-C5D2EC) ![Status Beta](https://img.shields.io/badge/Status-βeta-E9DACB) ![Python 3.8](https://img.shields.io/badge/-Python%203.8-informational) ![Twitch Bot](https://img.shields.io/badge/-Twitch%20Bot-blueviolet)
 ## Установка бота ![peepoChat (by saylermiu)](https://cdn.betterttv.net/emote/5e1bd08688e62a5f14dc6316/1x)
 Настроить бота под себя очень просто. Нужно изменить пару строк в файле **config.py**:
