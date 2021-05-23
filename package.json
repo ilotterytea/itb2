@@ -1,0 +1,21 @@
+{
+    "name": "ilotterybot",
+    "description": "Simple Twitch IRC Bot.",
+    "version": "1.0.0",
+    "scripts": {
+        "start": "bot.js",
+        "gui": "application/app.js",
+        "beta": "beta.js"
+    },
+    "author": "ilotterytea",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ilteapls/ilotterybot/issues"
+    },
+    "homepage": "https://ilteapls.ru/bot",
+    "dependencies": {
+        "tmi.js": "^1.8.3",
+        "xhr": "^2.6.0",
+        "xmlhttprequest": "^1.8.0"
+    }
+}
