@@ -23,3 +23,5 @@ This is a chatbot for Twitch. Actually, this is the first project in my entire c
 
 ## Notes
 This repository has been updated with some fixes in the code, and a bit of a restructuring of the code as well. A version before this update, with Russian comments, is available at [/releases](https://github.com/notdankenough/ilotterybot/releases)
+<br>
+This bot version was made for fun, so you see a lot of roleplay commands here ![forsenRP](https://static-cdn.jtvnw.net/emoticons/v2/31100/default/dark/1.0) 👍
