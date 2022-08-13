@@ -40,7 +40,7 @@
                     </div>
                 </section>
                 <section class="itb2_info">
-                    <div id="emotetop">
+                    <div id="emotetop" style="max-width: 420px;">
                         <div id="header">
                             <img id="icon" src="../img/7tv.png">
                             <h3 id="title">7TV Emote Leaderboard</h3>
@@ -48,32 +48,19 @@
                             <label for="showdel">Show deleted</label>
                         </div>
                         <div id="emotes">
-                            <% var items = Object.keys(itb.Emotes["stv"]).map((key) => {
-                                return [key, itb.Emotes["stv"][key].UsedTimes, itb.Emotes["stv"][key].ID, {
-                                    isDqeleted: (itb.Emotes["stv"][key].isDeleted === undefined) ? false : itb.Emotes["stv"][key].isDeleted
-                                }];
-                            }); %>
-                            <% items.sort((f, s) => {
-                                return parseInt(s[1]) - parseInt(f[1]);
-                            });%>
-
-                            <% if (items.length == 0) {%>
-                                not found
-                            <%}%>
-
-                            <% items.forEach((item, index) => { %>
-                                <div class="emote <% if (item[3].isDeleted) { %>deleted_emote<%}%>">
+                            <% itb_7tvemotes.forEach((emote, index) => { %>
+                                <div class="emote <% if (emote.is_deleted) { %>deleted_emote<%}%>">
                                     <div id="numeration"><%= index + 1 %></div>
 
-                                    <a href="https://7tv.app/emotes/<%= item[2] %>" title="Go to the 7TV emote page..." target="_blank">
-                                        <img id="image" src="https://cdn.7tv.app/emote/<%= item[2] %>/2x">
+                                    <a href="https://7tv.app/emotes/<%= emote.id %>" title="Go to the 7TV emote page..." target="_blank">
+                                        <img id="image" src="https://cdn.7tv.app/emote/<%= emote.id %>/2x">
                                     </a>
-                                    <p id="name"><%= item[0] %></p>
+                                    <p id="name" title="<%= emote.name %>"><%= emote.name %></p>
                                     <p id="usedtimes">
                                         <% if (index + 1 < 4) { %>
-                                        <blue><%- item[1].toLocaleString() %></blue>
+                                        <blue><%- emote.used_times.toLocaleString() %></blue>
                                         <% } else { %>
-                                        <%- item[1].toLocaleString() %>
+                                        <%- emote.used_times.toLocaleString() %>
                                         <% } %>
                                     </p>
                                 </div>
@@ -86,9 +73,9 @@
                             Statistics
                         </div>
                         <div id="stats">
-                            <p>Successfully completed tests: <%= itb.SuccessfullyCompletedTests %></p>
-                            <p>Executed commands: <%= itb.ExecutedCommands %></p>
-                            <p>Chat lines: <%= itb.ChatLines %></p>
+                            <p>Successfully completed tests: <%= itb.tests %></p>
+                            <p>Executed commands: <%= itb.exec_cmds %></p>
+                            <p>Chat lines: <%= itb.chat_lines %></p>
                         </div>
                     </div>
                 </section>
