@@ -24,10 +24,11 @@ import { readdirSync, readFileSync } from "fs";
 import TwitchApi from "../apollo/clients/ApiClient";
 import IStorage from "../apollo/interfaces/IStorage";
 import LocalStorage from "../apollo/files/LocalStorage";
+import { Emotes, PrismaClient, Target, Timers } from "@prisma/client";
 
 const log: Logger = new Logger({name: "www-serverinit"});
 
-async function ServerInit(opts: {[key: string]: string}, storage: LocalStorage, ttvapi: TwitchApi.Client, ssl_certificate: IConfiguration) {
+async function ServerInit(opts: {[key: string]: string}, prisma: PrismaClient, ttvapi: TwitchApi.Client, cfg: IConfiguration) {
     
     try {
         const App = express();
@@ -84,61 +85,64 @@ async function ServerInit(opts: {[key: string]: string}, storage: LocalStorage, 
         });
 
         App.get("/catalogue", async (req, res) => {
-            if (req.query.s == undefined) { req.query.s = "target"; }
-            if (req.query.s == "target") {
-                const users: any[] = [];
-
-                for await (const target of Object.keys(storage.Targets.getTargets)) {
-                    await ttvapi.getUserByName(storage.Targets.getTargets[target].Name!).then(async (user) => {
-                        if (user === undefined) return false;
-                        users.push(user);
-                    });
-                }
-                res.render("pages/catalogue", {
-                    users: users,
-                    bot_name: "fembajbot"
-                });
-                return;
-            }
+            var channels: Target[] | null = await prisma.target.findMany();
+            var users: any[] = [];
             
+            if (!channels) {
+                return res.render("pages/error", {
+                    status: 500,
+                    message: "Something went wrong.",
+                    kitty: "https://http.cat/500"
+                });
+            }
+
+            channels = channels.filter(c => c.id !== -72);
+
+            for await (const channel of channels) {
+                const user = await ttvapi.getUserById(channel.alias_id);
+                if (!user) return;
+                users.push(user);
+            }
+
+            res.render("pages/catalogue", {
+                users: users,
+                itb2: channels,
+                bot_name: "fembajbot"
+            });
         });
 
         App.get("/channel/:id", async (req, res) => {
-            // usernames:
-            if (isNaN(parseInt(req.params.id))) {
-                var found: boolean = false;
-                for (const target of Object.keys(storage.Targets.getTargets)) {
-                    if (req.params.id.toLowerCase() == storage.Targets.getTargets[target].Name!) {
-                        req.params.id = target;
-                        found = true;
-                    }
+            const channel: Target | null = await prisma.target.findFirst({
+                where: {
+                    alias_id: parseInt(req.params.id)
                 }
+            });
 
-                if (!found) {
-                    res.render("pages/error", {
-                        status: 404,
-                        message: "Target with username " + req.params.id +" not found.",
-                        kitty: "https://http.cat/404"
-                    });
-                    return;
-                }
-            }
-
-            // ids:
-            if (!(req.params.id in storage.Targets.getTargets) && /^[0-9].*$/.test(req.params.id)) {
-                res.render("pages/error", {
+            if (!channel) {
+                return res.render("pages/error", {
                     status: 404,
-                    message: "Target with ID " + req.params.id +" not found.",
+                    message: "Target with ID " + req.params.id + " not found.",
                     kitty: "https://http.cat/404"
                 });
-                return;
             }
 
-            var itb2data: IStorage.Target = storage.Targets.getTargets[req.params.id];
-            var ttvdata = (isNaN(parseInt(req.params.id))) ? await ttvapi.getUserByName(req.params.id) : await ttvapi.getUserById(parseInt(req.params.id));
+            const emotes: Emotes[] | null = await prisma.emotes.findMany({
+                where: {
+                    targetId: channel.id
+                },
+                orderBy: {
+                    used_times: "desc"
+                }
+            });
+
+            var ttvdata = await ttvapi.getUserById(parseInt(req.params.id));
 
             res.render("pages/channel", {
-                itb: itb2data,
+                itb: channel,
+                itb_7tvemotes: emotes.filter(e => e.provider === "stv"),
+                itb_bttvemotes: emotes.filter(e => e.provider === "bttv"),
+                itb_ffzemotes: emotes.filter(e => e.provider === "ffz"),
+                itb_ttvemotes: emotes.filter(e => e.provider === "ttv"),
                 ttv: ttvdata
             });
         });
@@ -156,9 +160,9 @@ async function ServerInit(opts: {[key: string]: string}, storage: LocalStorage, 
             });
         } else {
             var credentials = {
-                key: readFileSync(ssl_certificate.Web.Private, {encoding: "utf-8"}),
-                cert: readFileSync(ssl_certificate.Web.Certificate, {encoding: "utf-8"}),
-                ca: readFileSync(ssl_certificate.Web.Chain, {encoding: "utf-8"})
+                key: readFileSync(cfg.Web.Private, {encoding: "utf-8"}),
+                cert: readFileSync(cfg.Web.Certificate, {encoding: "utf-8"}),
+                ca: readFileSync(cfg.Web.Chain, {encoding: "utf-8"})
             };
 
             http.createServer(App).listen(80, () => {
