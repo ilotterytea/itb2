@@ -52,7 +52,7 @@ async function Main() {
     
     const Prisma: PrismaClient = new PrismaClient();
 
-    //await ServerInit(CLIArguments, Storage, TmiApi, cfg, Prisma);
+    await ServerInit(CLIArguments, Prisma, TmiApi, cfg);
     if (!CLIArguments["testWebOnly"]) await ApolloInit(CLIArguments, TmiApi, cfg, Prisma);
 }
 
