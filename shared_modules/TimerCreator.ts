@@ -54,7 +54,7 @@ export default class TimerCreator implements IModule.IModule {
                     ]));
                 }
                 
-                const msg = _message.join(' ');
+                const msg = _message.join(' ').trim();
 
                 const timer: Timers | null = await Arguments.Services.DB.timers.findFirst({
                     where: {
