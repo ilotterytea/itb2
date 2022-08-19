@@ -189,7 +189,19 @@ namespace Messages {
 
         if (target === null) return;
 
-        var cmd: CustomResponses | null = await args.Services.DB.customResponses.findFirst({
+        const cmd_a: CustomResponses | null = await args.Services.DB.customResponses.findFirst({
+            where: {
+                id: `@usernameequals(${args.Sender.Username.toLowerCase()})`,
+                targetId: target.id
+            }
+        });
+
+        if (cmd_a && cmd_a.value) {
+            args.Services.Client.say(`#${args.Target.Username}`, args.Services.Locale.customParsedText(cmd_a.response, args));
+            return;
+        }
+
+        const cmd: CustomResponses | null = await args.Services.DB.customResponses.findFirst({
             where: {
                 id: args.Message.raw.split(' ')[0],
                 targetId: target.id
@@ -199,7 +211,7 @@ namespace Messages {
         if (cmd === null) return;
         if (cmd.value == false) return;
         
-        args.Services.Client.say(`#${args.Target.Username}`, cmd.response);
+        args.Services.Client.say(`#${args.Target.Username}`, args.Services.Locale.customParsedText(cmd.response, args));
     }
 }
 
