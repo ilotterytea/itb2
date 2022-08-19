@@ -43,10 +43,25 @@ async function ApolloInit(
 ) {
     // User IDs and their usernames:
     const symlinks: Symlinks = new Symlinks(TmiApi);
+    const anon_symlinks: Symlinks = new Symlinks(TmiApi);
     
     // Convert User ID to username:
-    for await (const trg of await Prisma.target.findMany()) {
+    for await (const trg of await Prisma.target.findMany({
+        where: {
+            silent_mode: null
+        }
+    })) {
         await symlinks.register(trg.alias_id.toString());
+        await anon_symlinks.register(trg.alias_id.toString());
+    }
+
+    //// For anonymous client:
+    for await (const trg of await Prisma.target.findMany({
+        where: {
+            silent_mode: true
+        }
+    })) {
+        await anon_symlinks.register(trg.alias_id.toString());
     }
 
     const Locale: Localizator = new Localizator(Prisma, symlinks);
@@ -67,7 +82,7 @@ async function ApolloInit(
     );
     
     const AnonTmiClient: Client = AnonymousClient(
-        Object.keys(symlinks.getSymlinks()),
+        Object.keys(anon_symlinks.getSymlinks()),
         Opts["debug"]
     );
 

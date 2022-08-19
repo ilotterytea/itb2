@@ -48,6 +48,7 @@ model Target {
   timers      Timers[]
   emotes      Emotes[]
   stmodules   CustomResponses[]
+  silent_mode Boolean?
   timestamp   DateTime          @default(now())
 }
 
