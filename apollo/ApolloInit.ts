@@ -19,11 +19,13 @@ import { PrismaClient } from "@prisma/client";
 import EmoteLib from "emotelib";
 import { Client } from "tmi.js";
 import { Logger } from "tslog";
+import AnonymousClient from "./clients/AnonymousClient";
 import TwitchApi from "./clients/ApiClient";
 import ApolloClient from "./clients/ApolloClient";
 import ConfigIni from "./files/ConfigIni";
 import LocalStorage from "./files/LocalStorage";
 import Symlinks from "./files/Symlinks";
+import { AnonMessageHandler } from "./handlers/AnonMessageHandler";
 import Messages from "./handlers/MessageHandler";
 import TimerHandler from "./handlers/TimerHandler";
 import IConfiguration from "./interfaces/IConfiguration";
@@ -63,6 +65,11 @@ async function ApolloInit(
         Object.keys(symlinks.getSymlinks()),
         Opts["debug"]
     );
+    
+    const AnonTmiClient: Client = AnonymousClient(
+        Object.keys(symlinks.getSymlinks()),
+        Opts["debug"]
+    );
 
     const Emotes: EmoteUpdater = new EmoteUpdater({
         identify: {
@@ -84,6 +91,11 @@ async function ApolloInit(
         for (const target of await Prisma.target.findMany()) {
             await Emotes.syncAllEmotes(target.alias_id.toString());
         }
+
+        await AnonMessageHandler(
+            AnonTmiClient,
+            Prisma
+        );
 
         await Messages.Handler({
             Client: TmiClient,
