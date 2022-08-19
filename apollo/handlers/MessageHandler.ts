@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
-import { CustomResponses, Target, User } from "@prisma/client";
+import { Chain, CustomResponses, Target, User } from "@prisma/client";
 import { Argument } from "commander";
 import {
     ChatUserstate,
@@ -24,6 +24,7 @@ import {
 import { Logger } from "tslog";
 import TwitchApi from "../clients/ApiClient";
 import LocalStorage from "../files/LocalStorage";
+import { Token, Tokenize } from "../fun/markov/Tokenize";
 import IArguments from "../interfaces/IArguments";
 import IModule from "../interfaces/IModule";
 import IServices from "../interfaces/IServices";
@@ -148,6 +149,58 @@ namespace Messages {
                         targetDb.tests
                     ])
                 );
+            }
+
+            // Call the markov:
+            if (/^((@)?fembajbot(,)?).*/.test(args.Message.raw)) {
+                const _message: string[] = args.Message.raw.replace(/^((@)?fembajbot(,)?)/, "").split(' ');
+                var chain_message: string = "";
+                var first_chain: Chain | null = null;
+                var next_chain: Chain | null = null;
+
+                for (const word of _message) {
+                    first_chain = await Services.DB.chain.findFirst({
+                        where: {
+                            fromWord: word
+                        }
+                    });
+                    if (!first_chain) continue;
+                }
+
+                if (!first_chain) return;
+
+                while (true) {
+                    var chain: Chain | null = null;
+
+                    if (!next_chain) {
+                        chain_message = chain_message + first_chain.fromWord;
+
+                        chain = await Services.DB.chain.findFirst({
+                            where: {
+                                fromWord: first_chain.toWord
+                            }
+                        });
+
+                        if (!chain) break;
+
+                        next_chain = chain;
+                    } else {
+                        chain_message = chain_message + next_chain.fromWord;
+
+                        chain = await Services.DB.chain.findFirst({
+                            where: {
+                                fromWord: next_chain.toWord
+                            }
+                        });
+
+                        if (!chain) break;
+
+                        next_chain = chain;
+                    }
+                }
+                
+                Services.Client.say(channel, chain_message);
+                return;
             }
 
             // Start processing the commands:
