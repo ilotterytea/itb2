@@ -162,6 +162,7 @@ namespace Messages {
 
                     Services.Client.say(`#${args.Target.Username}`, response);
                 }
+                return;
             }
             
             await StaticCommandHandler(args);
