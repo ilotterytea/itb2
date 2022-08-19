@@ -6,8 +6,15 @@ generator client {
 }
 
 datasource db {
-  provider          = "sqlite"
-  url = "file:monkeos.db"
+  provider = "sqlite"
+  url      = "file:monkeos.db"
+}
+
+// Markov:
+model Chain {
+  id       Int    @id @default(autoincrement())
+  fromWord String
+  toWord   String
 }
 
 // Logs:

@@ -15,14 +15,39 @@
 // You should have received a copy of the GNU General Public License
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
-import { PrismaClient } from "@prisma/client";
+import { Chain, PrismaClient } from "@prisma/client";
 import { ChatUserstate, Client } from "tmi.js";
+import { Token, Tokenize } from "../fun/markov/Tokenize";
 
 async function AnonMessageHandler(
     client: Client,
     db: PrismaClient
 ) {
     client.on("message", async (channel: string, user: ChatUserstate, msg: string, self: boolean) => {
+        // Tokenize message:
+        const _tokens: Token[] = Tokenize(msg);
+        for await (const token of _tokens) {
+            const _token: Chain | null = await db.chain.findFirst({
+                where: {
+                    fromWord: token.fromWord
+                }
+            });
+
+            if (!_token) {
+                await db.chain.create({data: {
+                    fromWord: token.fromWord,
+                    toWord: token.toWord
+                }});
+            } else {
+                await db.chain.update({
+                    where: {id: _token.id},
+                    data: {
+                        toWord: token.toWord
+                    }
+                });
+            }
+        }
+
         await db.log.create({
             data: {
                 alias_id: parseInt(user["user-id"]!),
