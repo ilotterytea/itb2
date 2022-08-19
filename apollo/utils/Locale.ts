@@ -156,6 +156,10 @@ class Localizator {
                         _text[_text.indexOf(word)] = _text[_text.indexOf(word)].replace("${USER.ID}", args.Sender.ID);
                         break;
                     }
+                    case word.includes("${MSG}"): {
+                        _text[_text.indexOf(word)] = _text[_text.indexOf(word)].replace("${MSG}", args.Message.raw);
+                        break;
+                    }
                     default: {
                         break;
                     }
