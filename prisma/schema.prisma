@@ -15,7 +15,8 @@ model Log {
   id         Int      @id @default(autoincrement())
   alias_id   Int
   message    String
-  channel_id String
+  channel_id Int
+  event      String?
   timestamp  DateTime @default(now())
 }
 
