@@ -23,7 +23,8 @@ export default function ApiRoute(cfg: IConfiguration): Router {
     const router = Router();
 
     router.post("/gh/webhook", (req, res) => {
-        return res.send(req) // TEST!
+        console.log(req);
+        return res.send(req.body) // TEST!
         const h_key: string | string[] | undefined = req.headers["x-hub-signature-256"];
         const a_key: string = cfg.Keys.GHWebhook;
         const body: {[key: string]: any} = req.body;
