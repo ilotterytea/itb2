@@ -23,6 +23,7 @@ import bodyParser from "body-parser";
 export default function ApiRoute(cfg: IConfiguration): Router {
     const router = Router();
 
+    router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({extended: true}));
 
     router.post("/gh/webhook", (req, res) => {
