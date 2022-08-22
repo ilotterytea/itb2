@@ -25,6 +25,8 @@ import ServerInit from "./www/ServerInit";
 import TwitchApi from "./apollo/clients/ApiClient";
 import LocalStorage from "./apollo/files/LocalStorage";
 import { PrismaClient } from "@prisma/client";
+import Localizator from "./apollo/utils/Locale";
+import Symlinks from "./apollo/files/Symlinks";
 
 const log: Logger = new Logger({name: "itb2-main"});
 
@@ -51,9 +53,34 @@ async function Main() {
     );
     
     const Prisma: PrismaClient = new PrismaClient();
+    // User IDs and their usernames:
+    const symlinks: Symlinks = new Symlinks(TmiApi);
+    const anon_symlinks: Symlinks = new Symlinks(TmiApi);
+    
+    // Convert User ID to username:
+    for await (const trg of await Prisma.target.findMany({
+        where: {
+            silent_mode: false
+        }
+    })) {
+        await symlinks.register(trg.alias_id.toString());
+        await anon_symlinks.register(trg.alias_id.toString());
+    }
 
-    await ServerInit(CLIArguments, Prisma, TmiApi, cfg);
-    if (!CLIArguments["testWebOnly"]) await ApolloInit(CLIArguments, TmiApi, cfg, Prisma);
+    //// For anonymous client:
+    for await (const trg of await Prisma.target.findMany({
+        where: {
+            silent_mode: true
+        }
+    })) {
+        await anon_symlinks.register(trg.alias_id.toString());
+    }
+
+    const Locale: Localizator = new Localizator(Prisma, symlinks);
+    await Locale.load("localization/bot.json");
+
+    await ServerInit(CLIArguments, Locale, Prisma, TmiApi, cfg);
+    if (!CLIArguments["testWebOnly"]) await ApolloInit(CLIArguments, Locale, symlinks, anon_symlinks, TmiApi, cfg, Prisma);
 }
 
 Main();
