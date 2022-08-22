@@ -26,6 +26,9 @@ interface IConfiguration {
         Private: string,
         Certificate: string,
         Chain: string
+    },
+    Keys: {
+        GHWebhook: string
     }
 }
 
