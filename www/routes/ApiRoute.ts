@@ -18,16 +18,18 @@
 import { Router } from "express";
 import IConfiguration from "../../apollo/interfaces/IConfiguration";
 import crypto from "crypto";
+import bodyParser from "body-parser";
 
 export default function ApiRoute(cfg: IConfiguration): Router {
     const router = Router();
 
+    router.use(bodyParser.json());
+
     router.post("/gh/webhook", (req, res) => {
-        console.log(req);
-        return res.send(req.body) // TEST!
+        console.log(JSON.parse(req.body));
         const h_key: string | string[] | undefined = req.headers["x-hub-signature-256"];
         const a_key: string = cfg.Keys.GHWebhook;
-        const body: {[key: string]: any} = req.body;
+        const body: {[key: string]: any} = JSON.parse(req.body);
 
         const hash: string = crypto.createHmac("sha256", a_key).update(JSON.stringify(body)).digest("hex");
 
