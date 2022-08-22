@@ -31,7 +31,7 @@ export default function ApiRoute(cfg: IConfiguration): Router {
         const a_key: string = cfg.Keys.GHWebhook;
         var body: {[key: string]: any} = JSON.parse(req.body.payload);
 
-        const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update("payload=" + JSON.stringify(req.body.payload)).digest("hex");
+        const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update(JSON.stringify(req.body)).digest("hex");
         console.log(hash);
         console.log(h_key);
         console.log(body);
