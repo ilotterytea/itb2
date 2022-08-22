@@ -38,6 +38,7 @@
     "express-prisma-studio": "^1.0.5",
     "fs": "^0.0.1-security",
     "git-rev-sync": "^3.0.2",
+    "hmac": "^1.0.1",
     "http-auth": "^4.1.9",
     "http-auth-connect": "^1.0.5",
     "node-os-utils": "^1.3.7",
