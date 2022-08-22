@@ -41,11 +41,24 @@ export default class JoinChat implements IModule.IModule {
 
         if (!user) return Promise.resolve(false);
 
+        const inSilentMode: boolean = _message.includes("--silent") || _message.includes("-s");
+
         await Arguments.Services.DB.target.create({
             data: {
-                alias_id: parseInt(user.id)
+                alias_id: parseInt(user.id),
+                silent_mode: inSilentMode
             }
         });
+
+        if (inSilentMode) {
+            if (!Arguments.Services.AnonClient) throw new Error("No anonymous client in services.");
+
+            Arguments.Services.AnonClient.join(`#${user.login}`);
+            return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.join.response", Arguments, [
+                user.login,
+                `${user.id}, Silent Mode`
+            ]));
+        }
 
         await Arguments.Services.Symlinks.register(user.id);
 
