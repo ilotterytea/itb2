@@ -22,7 +22,7 @@ import crypto from "crypto";
 export default function ApiRoute(cfg: IConfiguration): Router {
     const router = Router();
 
-    router.get("/gh/webhook", (req, res) => {
+    router.post("/gh/webhook", (req, res) => {
         console.log(req.headers["X-Hub-Signature-256"]);/*
         if (!req.headers["X-Hub-Signature-256"] ||
         req.headers["X-Hub-Signature-256"] !== crypto.createHash("sha256").update(cfg.Keys.GHWebhook).digest("hex")) {
