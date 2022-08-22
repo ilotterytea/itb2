@@ -41,6 +41,8 @@ export default function ApiRoute(cfg: IConfiguration): Router {
         });
 
         console.log(body);
+        console.log(req);
+        console.log(req.body);
 
         const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update(JSON.stringify(body)).digest("hex");
         console.log(hash);
