@@ -40,7 +40,8 @@ export default class Ping implements IModule.IModule {
             usedmem.toString(),
             totalmem.toString(),
             pingms.toString(),
-            await (await Arguments.Services.DB.target.findMany()).length
+            await (await Arguments.Services.DB.target.findMany()).length,
+            await (await Arguments.Services.DB.chain.findMany()).length
         ]));
     }
 }
