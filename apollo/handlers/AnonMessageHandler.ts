@@ -24,9 +24,21 @@ async function AnonMessageHandler(
     db: PrismaClient
 ) {
     client.on("message", async (channel: string, user: ChatUserstate, msg: string, self: boolean) => {
+        const regex: RegExp = /[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/;
+
         // Tokenize message:
         setTimeout(async () => {
+            msg = msg.toLowerCase();
+
+            // Filter the message from special characters:
+            for (const letter of msg) {
+                if (regex.test(letter)) {
+                    msg = msg.replace(letter, "");
+                }
+            }
+
             const _tokens: Token[] = Tokenize(msg);
+
             for await (const token of _tokens) {
                 const _token: Chain | null = await db.chain.findFirst({
                     where: {
