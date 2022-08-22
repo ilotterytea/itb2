@@ -43,7 +43,9 @@ async function ServerInit(opts: {[key: string]: string}, locale: Localizator, pr
             },
             channels: ["ilotterytea"]
         });
-        
+
+        client.connect();
+
         const App = express();
         App.set("view engine", "ejs");
         App.set("views", `${__dirname}/views`);
