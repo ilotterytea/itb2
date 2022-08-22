@@ -31,7 +31,7 @@ export default function ApiRoute(cfg: IConfiguration): Router {
         const a_key: string = cfg.Keys.GHWebhook;
         var body: {[key: string]: any} = JSON.parse(req.body.payload);
 
-        const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update(JSON.stringify(body)).digest("hex");
+        const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update(req.body.payload).digest("hex");
         console.log(hash);
         console.log(h_key);
         console.log(body);
@@ -45,13 +45,12 @@ export default function ApiRoute(cfg: IConfiguration): Router {
             ]);
         }
 
-        const action: string | string[] | undefined = req.headers["x-github-event"];
+        const action: string = req.headers["x-github-event"] as string;
 
-        if (typeof action == "string") {
+        if (!action) {
             switch (action) {
                 case "push": {
-                    console.log(action)
-                    console.log(req.body)
+                    console.log("ok");
                     break;
                 }
                 default: {
