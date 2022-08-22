@@ -27,6 +27,7 @@ import ChannelRoute from "./routes/ChannelRoute";
 import CatalogueRoute from "./routes/CatalogueRoute";
 import CommandsRoute from "./routes/CommandsRoute";
 import { HomeRoute } from "./routes/HomeRoute";
+import ApiRoute from "./routes/ApiRoute";
 
 const log: Logger = new Logger({name: "www-serverinit"});
 
@@ -40,6 +41,7 @@ async function ServerInit(opts: {[key: string]: string}, prisma: PrismaClient, t
         App.use("/channel", ChannelRoute(prisma, ttvapi));
         App.use("/catalogue", CatalogueRoute(prisma, ttvapi, cfg));
         App.use("/commands", CommandsRoute(cfg));
+        App.use("/api/v1", ApiRoute(cfg));
         App.use("/", HomeRoute(prisma, cfg));
 
         App.use(express.static(`${__dirname}/static`));
