@@ -115,7 +115,8 @@ async function ApolloInit(
             DB: Prisma,
             TwitchApi: TmiApi,
             Timer: Timer,
-            Symlinks: symlinks
+            Symlinks: symlinks,
+            AnonClient: AnonTmiClient
         });
 
         await AnonMessageHandler(
