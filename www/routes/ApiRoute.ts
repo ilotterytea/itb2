@@ -23,7 +23,6 @@ import bodyParser from "body-parser";
 export default function ApiRoute(cfg: IConfiguration): Router {
     const router = Router();
 
-    router.use(bodyParser.json());
     router.use(bodyParser.urlencoded({extended: true}));
 
     router.post("/gh/webhook", (req, res) => {
@@ -31,7 +30,7 @@ export default function ApiRoute(cfg: IConfiguration): Router {
         const a_key: string = cfg.Keys.GHWebhook;
         var body: {[key: string]: any} = JSON.parse(req.body.payload);
 
-        const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update(JSON.stringify(req.body)).digest("hex");
+        const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update(req.body).digest("hex");
         console.log(hash);
         console.log(h_key);
         console.log(body);
