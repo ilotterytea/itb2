@@ -25,28 +25,30 @@ async function AnonMessageHandler(
 ) {
     client.on("message", async (channel: string, user: ChatUserstate, msg: string, self: boolean) => {
         // Tokenize message:
-        const _tokens: Token[] = Tokenize(msg);
-        for await (const token of _tokens) {
-            const _token: Chain | null = await db.chain.findFirst({
-                where: {
-                    fromWord: token.fromWord
-                }
-            });
-
-            if (!_token) {
-                await db.chain.create({data: {
-                    fromWord: token.fromWord,
-                    toWord: token.toWord
-                }});
-            } else {
-                await db.chain.update({
-                    where: {id: _token.id},
-                    data: {
-                        toWord: token.toWord
+        setTimeout(async () => {
+            const _tokens: Token[] = Tokenize(msg);
+            for await (const token of _tokens) {
+                const _token: Chain | null = await db.chain.findFirst({
+                    where: {
+                        fromWord: token.fromWord
                     }
                 });
+
+                if (!_token) {
+                    await db.chain.create({data: {
+                        fromWord: token.fromWord,
+                        toWord: token.toWord
+                    }});
+                } else {
+                    await db.chain.update({
+                        where: {id: _token.id},
+                        data: {
+                            toWord: token.toWord
+                        }
+                    });
+                }
             }
-        }
+        }, 2500);
 
         await db.log.create({
             data: {

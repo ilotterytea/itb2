@@ -161,10 +161,15 @@ namespace Messages {
                 for (const word of _message) {
                     first_chain = await Services.DB.chain.findFirst({
                         where: {
-                            fromWord: word
+                            fromWord: word,
+                            AND: {
+                                NOT: {
+                                    toWord: "\x03"
+                                }
+                            }
                         }
                     });
-                    if (!first_chain) continue;
+                    if (first_chain) break;
                 }
 
                 if (!first_chain) return;
@@ -173,7 +178,7 @@ namespace Messages {
                     var chain: Chain | null = null;
 
                     if (!next_chain) {
-                        chain_message = chain_message + first_chain.fromWord;
+                        chain_message = chain_message + first_chain.fromWord + " ";
 
                         chain = await Services.DB.chain.findFirst({
                             where: {
@@ -185,7 +190,7 @@ namespace Messages {
 
                         next_chain = chain;
                     } else {
-                        chain_message = chain_message + next_chain.fromWord;
+                        chain_message = chain_message + next_chain.fromWord + " ";
 
                         chain = await Services.DB.chain.findFirst({
                             where: {
