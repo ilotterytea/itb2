@@ -23,18 +23,38 @@ export default function ApiRoute(cfg: IConfiguration): Router {
     const router = Router();
 
     router.post("/gh/webhook", (req, res) => {
-        console.log(req.headers["x-hub-signature-256"]);/*
-        if (!req.headers["X-Hub-Signature-256"] ||
-        req.headers["X-Hub-Signature-256"] !== crypto.createHash("sha256").update(cfg.Keys.GHWebhook).digest("hex")) {
+        const h_key: string | string[] | undefined = req.headers["x-hub-signature-256"];
+        const a_key: string = cfg.Keys.GHWebhook;
+        const body: {[key: string]: any} = req.body;
+
+        const hash: string = crypto.createHmac("sha256", a_key).update(JSON.stringify(body)).digest("hex");
+
+        if (h_key !== hash) {
             return res.json([
                 {
                     status: 401,
                     message: "Unauthorized"
                 }
             ]).status(401);
-        }*/
+        }
 
-        return res.json(req.body);
+        const action: string | string[] | undefined = req.headers["x-github-event"];
+
+        if (typeof action == "string") {
+            switch (action) {
+                case "push": {
+                    console.log(action)
+                    console.log(req.body)
+                    break;
+                }
+                default: {
+                    break;
+                }
+            }
+        }
+
+
+        return res.send(req);
     });
 
     return router;
