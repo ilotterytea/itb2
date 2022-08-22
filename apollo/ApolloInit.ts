@@ -107,11 +107,6 @@ async function ApolloInit(
             await Emotes.syncAllEmotes(target.alias_id.toString());
         }
 
-        await AnonMessageHandler(
-            AnonTmiClient,
-            Prisma
-        );
-
         await Messages.Handler({
             Client: TmiClient,
             Locale: Locale,
@@ -122,6 +117,11 @@ async function ApolloInit(
             Timer: Timer,
             Symlinks: symlinks
         });
+
+        await AnonMessageHandler(
+            AnonTmiClient,
+            Prisma
+        );
 
     } catch (err) {
         log.error(err);
