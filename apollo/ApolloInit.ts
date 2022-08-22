@@ -48,7 +48,7 @@ async function ApolloInit(
     // Convert User ID to username:
     for await (const trg of await Prisma.target.findMany({
         where: {
-            silent_mode: null
+            silent_mode: false
         }
     })) {
         await symlinks.register(trg.alias_id.toString());
