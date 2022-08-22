@@ -28,12 +28,22 @@ import CatalogueRoute from "./routes/CatalogueRoute";
 import CommandsRoute from "./routes/CommandsRoute";
 import { HomeRoute } from "./routes/HomeRoute";
 import ApiRoute from "./routes/ApiRoute";
+import Localizator from "../apollo/utils/Locale";
+import { Client } from "tmi.js";
 
 const log: Logger = new Logger({name: "www-serverinit"});
 
-async function ServerInit(opts: {[key: string]: string}, prisma: PrismaClient, ttvapi: TwitchApi.Client, cfg: IConfiguration) {
+async function ServerInit(opts: {[key: string]: string}, locale: Localizator, prisma: PrismaClient, ttvapi: TwitchApi.Client, cfg: IConfiguration) {
     
     try {
+        const client = new Client({
+            identity: {
+                username: cfg.Authorization.Username,
+                password: cfg.Authorization.Password
+            },
+            channels: ["ilotterytea"]
+        });
+        
         const App = express();
         App.set("view engine", "ejs");
         App.set("views", `${__dirname}/views`);
@@ -41,7 +51,7 @@ async function ServerInit(opts: {[key: string]: string}, prisma: PrismaClient, t
         App.use("/channel", ChannelRoute(prisma, ttvapi));
         App.use("/catalogue", CatalogueRoute(prisma, ttvapi, cfg));
         App.use("/commands", CommandsRoute(cfg));
-        App.use("/api/v1", ApiRoute(cfg));
+        App.use("/api/v1", ApiRoute(client, locale, cfg));
         App.use("/", HomeRoute(prisma, cfg));
 
         App.use(express.static(`${__dirname}/static`));
