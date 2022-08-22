@@ -59,7 +59,7 @@ export default function ApiRoute(client: Client, locale: Localizator, cfg: IConf
                         commit.added.length,
                         commit.removed.length,
                         commit.modified.length
-                    ]));
+                    ], {target_name: "ilotterytea"}));
                 }
                 break;
             }
