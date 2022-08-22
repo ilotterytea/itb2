@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
-import { Router } from "express";
+import { NextFunction, Router, Request, Response } from "express";
 import IConfiguration from "../../apollo/interfaces/IConfiguration";
 import crypto from "crypto";
 import bodyParser from "body-parser";
@@ -24,44 +24,27 @@ export default function ApiRoute(cfg: IConfiguration): Router {
     const router = Router();
 
     router.use(bodyParser.json());
+    console.log(cfg);
     router.use(bodyParser.urlencoded({extended: true}));
 
-    router.post("/gh/webhook", (req, res) => {
-        const h_key: string | string[] | undefined = req.headers["x-hub-signature-256"];
-        const a_key: string = cfg.Keys.GHWebhook;
-        var body: {[key: string]: any} = JSON.parse(req.body.payload);
-
-        console.log(req.body);
-        const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update("payload=" + req.body.payload).digest("hex");
-        console.log(hash);
-        console.log(h_key);
-        console.log(body);
-
-        if (h_key !== hash) {
-            return res.status(401).json([
-                {
-                    status: 401,
-                    message: "Unauthorized"
-                }
-            ]);
+    function verifyPayload(req: Request, res: Response, next: NextFunction): void {
+        if (!req.body) {
+            return next("Request Body is empty!");
         }
+        const data = JSON.stringify(req.body);
+        const signature = Buffer.from(req.get("x-hub-signature-256") || "", "utf-8");
+        const hmac = crypto.createHmac("sha256", cfg.Keys.GHWebhook);
+        const digest = Buffer.from(`sha256=${hmac.update(data).digest("hex")}`, "utf-8");
 
-        const action: string = req.headers["x-github-event"] as string;
-
-        if (!action) {
-            switch (action) {
-                case "push": {
-                    console.log("ok");
-                    break;
-                }
-                default: {
-                    break;
-                }
-            }
+        if (signature.length !== digest.length || !crypto.timingSafeEqual(digest, signature)) {
+            return next("Request body digest " + digest + " didn't match x-hub-signature-256 " + signature);
         }
+        return next();
+    }
 
-
-        return res.send(req);
+    router.post("/gh/webhook", verifyPayload, (req, res) => {
+        console.log(JSON.parse(req.body.payload));
+        res.status(200).send("Request is signed!");
     });
 
     return router;
