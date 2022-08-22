@@ -27,11 +27,11 @@ export default function ApiRoute(cfg: IConfiguration): Router {
     router.use(bodyParser.urlencoded({extended: true}));
 
     router.post("/gh/webhook", (req, res) => {
-        const h_key: string | string[] | undefined = req.headers["x-hub-signature"];
+        const h_key: string | string[] | undefined = req.headers["x-hub-signature-256"];
         const a_key: string = cfg.Keys.GHWebhook;
         var body: {[key: string]: any} = JSON.parse(req.body.payload);
 
-        const hash: string = "sha1=" + crypto.createHmac("sha1", a_key).update(JSON.stringify(req.body.payload)).digest("hex");
+        const hash: string = "sha256=" + crypto.createHmac("sha256", a_key).update("payload=" + JSON.stringify(req.body.payload)).digest("hex");
         console.log(hash);
         console.log(h_key);
         console.log(body);
