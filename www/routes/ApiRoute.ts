@@ -24,27 +24,11 @@ export default function ApiRoute(cfg: IConfiguration): Router {
     const router = Router();
 
     router.use(bodyParser.json());
-    console.log(cfg);
     router.use(bodyParser.urlencoded({extended: true}));
 
-    function verifyPayload(req: Request, res: Response, next: NextFunction): void {
-        if (!req.body) {
-            return next("Request Body is empty!");
-        }
-        const data = JSON.stringify(req.body);
-        const signature = Buffer.from(req.get("x-hub-signature-256") || "", "utf-8");
-        const hmac = crypto.createHmac("sha256", cfg.Keys.GHWebhook);
-        const digest = Buffer.from(`sha256=${hmac.update(data).digest("hex")}`, "utf-8");
-
-        if (signature.length !== digest.length || !crypto.timingSafeEqual(digest, signature)) {
-            return next("Request body digest " + digest + " didn't match x-hub-signature-256 " + signature);
-        }
-        return next();
-    }
-
-    router.post("/gh/webhook", verifyPayload, (req, res) => {
-        console.log(JSON.parse(req.body.payload));
-        res.status(200).send("Request is signed!");
+    router.post("/gh/webhook", (req, res) => {
+        console.log(req.body);
+        res.status(401);
     });
 
     return router;
