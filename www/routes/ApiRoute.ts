@@ -30,11 +30,13 @@ export default function ApiRoute(cfg: IConfiguration): Router {
         const a_key: string = cfg.Keys.GHWebhook;
         var body: string = "";
 
-        req.on("readable", () => {
-            body += req.read();
-        });
+        req.on("data", (chunk) => {
+            body = body + chunk;
+        })
         req.on("end", () => {
             console.log(body);
+            res.write("OK");
+            res.end();
         });
 
         console.log(body);
