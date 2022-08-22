@@ -34,7 +34,8 @@ interface IServices {
     Locale: Localizator,
     Module?: ModuleManager | undefined,
     Emote?: EmoteUpdater | undefined,
-    Timer?: TimerHandler | undefined
+    Timer?: TimerHandler | undefined,
+    AnonClient?: Client
 }
 
 export default IServices;
