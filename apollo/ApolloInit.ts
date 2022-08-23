@@ -105,6 +105,12 @@ async function ApolloInit(
     } catch (err) {
         log.error(err);
     }
+
+    process.on("SIGHUP", (signal) => {
+        TmiClient.disconnect();
+        AnonTmiClient.disconnect();
+        Emotes.closeWebsocket();
+    });
 }
 
 export default ApolloInit;
