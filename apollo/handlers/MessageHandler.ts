@@ -153,13 +153,13 @@ namespace Messages {
 
             // Call the markov:
             if (/^((@)?fembajbot(,)?).*/.test(args.Message.raw.toLowerCase())) {
-                const _message: string[] = args.Message.raw.toLowerCase().replace(/^((@)?fembajbot(,)?)/, "").split(' ');
+                const _message: string[] = args.Message.raw.toLowerCase().replace(/^((@)?fembajbot(,)?)/, "").trim().split(' ');
                 var chain_message: string = "";
-                var first_chain: Chain | null = null;
-                var next_chain: Chain | null = null;
+                console.log(_message);
 
                 for (const word of _message) {
-                    first_chain = await Services.DB.chain.findFirst({
+                    console.log(word);
+                    const first_chain: Chain | null = await Services.DB.chain.findFirst({
                         where: {
                             fromWord: word,
                             AND: {
@@ -169,41 +169,42 @@ namespace Messages {
                             }
                         }
                     });
-                    if (first_chain) break;
-                }
 
-                if (!first_chain) return;
+                    console.log(first_chain);
+                    if (!first_chain) continue;
 
-                while (true) {
-                    var chain: Chain | null = null;
+                    var next_chain: Chain | null = null;
 
-                    if (!next_chain) {
-                        chain_message = chain_message + first_chain.fromWord + " ";
+                    while (true) {
+                        var chain: Chain | null = null;
+                        if (!next_chain) {
+                            chain_message = chain_message + first_chain.fromWord + " ";
 
-                        chain = await Services.DB.chain.findFirst({
-                            where: {
-                                fromWord: first_chain.toWord
-                            }
-                        });
+                            chain = await Services.DB.chain.findFirst({
+                                where: {
+                                    fromWord: first_chain.toWord
+                                }
+                            });
+                            console.log(chain);
 
-                        if (!chain) break;
+                            if (!chain) break;
+                            next_chain = chain;
+                        } else {
+                            chain_message = chain_message + next_chain.fromWord + " ";
 
-                        next_chain = chain;
-                    } else {
-                        chain_message = chain_message + next_chain.fromWord + " ";
+                            chain = await Services.DB.chain.findFirst({
+                                where: {
+                                    fromWord: next_chain.toWord
+                                }
+                            });
+                            console.log(chain);
 
-                        chain = await Services.DB.chain.findFirst({
-                            where: {
-                                fromWord: next_chain.toWord
-                            }
-                        });
-
-                        if (!chain) break;
-
-                        next_chain = chain;
+                            if (!chain) break;
+                            next_chain = chain;
+                        }
                     }
                 }
-                
+
                 Services.Client.say(channel, chain_message);
                 return;
             }
