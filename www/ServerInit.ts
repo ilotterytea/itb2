@@ -58,8 +58,12 @@ async function ServerInit(opts: {[key: string]: string}, locale: Localizator, pr
 
         App.use(express.static(`${__dirname}/static`));
         if (opts.debug) {
-            http.createServer(App).listen(8080, () => {
+            const httpc = http.createServer(App).listen(8080, () => {
                 log.debug("The bot web server is running on port", "8080");
+            });
+            process.on("SIGHUP", (signal) => {
+                httpc.close();
+                client.disconnect();
             });
         } else {
             var credentials = {
@@ -68,12 +72,17 @@ async function ServerInit(opts: {[key: string]: string}, locale: Localizator, pr
                 ca: readFileSync(cfg.Web.Chain, {encoding: "utf-8"})
             };
 
-            http.createServer(App).listen(80, () => {
+            const httpc = http.createServer(App).listen(80, () => {
                 log.debug("The bot's web HTTP server is running on port", "80");
             });
             
-            https.createServer(credentials, App).listen(443, () => {
+            const httpsc = https.createServer(credentials, App).listen(443, () => {
                 log.debug( "The bot's web HTTPS server is running on port", "443");
+            });
+            process.on("SIGHUP", (signal) => {
+                httpc.close();
+                httpsc.close();
+                client.disconnect();
             });
         }
     } catch (err) {

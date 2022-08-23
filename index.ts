@@ -81,6 +81,10 @@ async function Main() {
 
     await ServerInit(CLIArguments, Locale, Prisma, TmiApi, cfg);
     if (!CLIArguments["testWebOnly"]) await ApolloInit(CLIArguments, Locale, symlinks, anon_symlinks, TmiApi, cfg, Prisma);
+
+    process.on("SIGHUP", (signal) => {
+        Prisma.$disconnect();
+    });
 }
 
 Main();
