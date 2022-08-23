@@ -52,7 +52,7 @@ export default function ApiRoute(client: Client, locale: Localizator, cfg: IConf
         switch (action) {
             case "push": {
                 for (const commit of payload.commits) {
-                    await client.say(channel, await locale.parsedText("gh.push", undefined, [
+                    await client.action(channel, await locale.parsedText("gh.push", undefined, [
                         payload.sender.login,
                         commit.id.slice(0, 7),
                         payload.repository.full_name,
