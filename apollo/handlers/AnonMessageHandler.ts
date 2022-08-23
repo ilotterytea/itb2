@@ -24,6 +24,8 @@ async function AnonMessageHandler(
     db: PrismaClient
 ) {
     client.on("message", async (channel: string, user: ChatUserstate, msg: string, self: boolean) => {
+        if (user["user-id"] === "555579413") return;
+
         const regex: RegExp = /[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/;
 
         // Tokenize message:
