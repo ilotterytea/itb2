@@ -22,6 +22,7 @@ import bodyParser from "body-parser";
 import { Logger } from "tslog";
 import { Client } from "tmi.js";
 import Localizator from "../../apollo/utils/Locale";
+import { execSync } from "child_process";
 
 const log: Logger = new Logger({name: "apirouter"});
 
@@ -51,7 +52,7 @@ export default function ApiRoute(client: Client, locale: Localizator, cfg: IConf
         switch (action) {
             case "push": {
                 for (const commit of payload.commits) {
-                    client.say(channel, await locale.parsedText("gh.push", undefined, [
+                    await client.say(channel, await locale.parsedText("gh.push", undefined, [
                         payload.sender.login,
                         commit.id.slice(0, 7),
                         payload.repository.full_name,
@@ -60,7 +61,10 @@ export default function ApiRoute(client: Client, locale: Localizator, cfg: IConf
                         commit.removed.length,
                         commit.modified.length
                     ], {target_name: "ilotterytea"}));
+
+                    
                 }
+                execSync("git pull");
                 break;
             }
             default: {
