@@ -152,8 +152,8 @@ namespace Messages {
             }
 
             // Call the markov:
-            if (/^((@)?fembajbot(,)?).*/.test(args.Message.raw.toLowerCase())) {
-                const _message: string[] = args.Message.raw.toLowerCase().replace(/^((@)?fembajbot(,)?)/, "").trim().split(' ');
+            if (/^((@)?fembajbot(,)?).*/.test(args.Message.raw)) {
+                const _message: string[] = args.Message.raw.replace(/^((@)?fembajbot(,)?)/, "").trim().split(' ');
                 var chain_message: string = "";
                 console.log(_message);
 

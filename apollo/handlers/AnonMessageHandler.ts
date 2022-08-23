@@ -28,8 +28,6 @@ async function AnonMessageHandler(
 
         // Tokenize message:
         setTimeout(async () => {
-            msg = msg.toLowerCase();
-
             // Filter the message from special characters:
             for (const letter of msg) {
                 if (regex.test(letter)) {
