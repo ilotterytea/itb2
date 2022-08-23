@@ -123,6 +123,11 @@ class EmoteUpdater {
         this.db = options.services.db;
     }
 
+    public closeWebsocket(): void {
+        if (!this.websocket) return;
+        this.websocket.close();
+    }
+
     /**
      * Increase the "UsedTimes" key for emote.
      * @param text Text.
