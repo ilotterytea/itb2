@@ -230,10 +230,10 @@ class EmoteUpdater {
 
         this.websocket.addEventListener("close", (event) => {
             log.debug("Connection to 7TV EventAPI is closed!", event.code, event.reason);
+            this.websocket!.close();
             setTimeout(() => {
-                this.websocket!.close();
                 this.websocket = new WebSocket("wss://events.7tv.app/v1/channel-emotes");
-            }, 8000);
+            }, 30000);
         });
 
         this.websocket.addEventListener("error", (event) => {
