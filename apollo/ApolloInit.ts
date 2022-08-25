@@ -79,10 +79,6 @@ async function ApolloInit(
     });
 
     try {
-        for (const target of await Prisma.target.findMany()) {
-            await Emotes.syncAllEmotes(target.alias_id.toString());
-        }
-
         await Messages.Handler({
             Client: TmiClient,
             Locale: Locale,
@@ -102,6 +98,9 @@ async function ApolloInit(
 
         await Emotes.subscribeTo7TVEventAPI();
 
+        for (const target of await Prisma.target.findMany()) {
+            await Emotes.syncAllEmotes(target.alias_id.toString());
+        }
     } catch (err) {
         log.error(err);
     }
