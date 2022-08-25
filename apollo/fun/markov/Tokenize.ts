@@ -26,9 +26,6 @@ class Token {
 }
 
 function Tokenize(text: string): Token[] {
-    // Remove bot mention from text:
-    text = text.replace(new RegExp(/^((@)?fembajbot(,)?)/), "");
-
     const _text: string[] = text.trim().split(' ')
     .filter(w => w !== "\x02")
     .filter(w => w !== "\x03");
