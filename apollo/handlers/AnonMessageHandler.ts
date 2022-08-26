@@ -25,9 +25,6 @@ async function AnonMessageHandler(
 ) {
     client.on("message", async (channel: string, user: ChatUserstate, msg: string, self: boolean) => {
         if (user["user-id"] === "555579413") return;
-        const bot_name_exp: RegExp = new RegExp(/^((@)?imteabot(,)?)/);
-
-        if (bot_name_exp.test(msg)) return;
 
         const regex: RegExp = /[~`!@#$%^&*()+={}\[\];:\'\"<>.,\/\\\?-_]/;
 
