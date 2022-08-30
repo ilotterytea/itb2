@@ -96,8 +96,6 @@ async function ApolloInit(
             Prisma
         );
 
-        await Emotes.subscribeTo7TVEventAPI();
-
         for (const target of await Prisma.target.findMany()) {
             await Emotes.syncAllEmotes(target.alias_id.toString());
         }
