@@ -211,13 +211,7 @@ class EmoteUpdater {
     }
 
     public async subscribeTo7TVEventAPI() {
-        if (this.websocket === null) {
-            this.websocket = new WebSocket("wss://events.7tv.app/v1/channel-emotes");
-        } else {
-            this.websocket.close();
-            this.websocket = new WebSocket("wss://events.7tv.app/v1/channel-emotes");
-        }
-
+        this.websocket = new WebSocket("wss://events.7tv.app/v1/channel-emotes");
         this.websocket.addEventListener("open", (event) => {
             log.debug("Connection to 7TV EventAPI is open!");
             for (const username of Object.keys(this.symlinks.getSymlinks())) {
@@ -227,15 +221,7 @@ class EmoteUpdater {
                 }));
             }
         });
-
-        this.websocket.addEventListener("close", (event) => {
-            log.debug("Connection to 7TV EventAPI is closed!", event.code, event.reason);
-            this.websocket!.close();
-            setTimeout(() => {
-                this.websocket = new WebSocket("wss://events.7tv.app/v1/channel-emotes");
-            }, 30000);
-        });
-
+        
         this.websocket.addEventListener("error", (event) => {
             log.debug("Error occurred in 7TV connection:", event.message);
         });
