@@ -15,49 +15,18 @@
 // You should have received a copy of the GNU General Public License
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
-import IArguments from "../apollo/interfaces/IArguments";
-import IModule from "../apollo/interfaces/IModule";
 import axios from "axios";
+import { AccessLevels, ModuleManager } from "../apollo/utils/modules/ModuleManager";
 
-export default class Massping implements IModule.IModule {
-    cooldownMs: number;
-    permissions: number;
-    constructor (cooldownMs: number, permissions: number) {
-        this.cooldownMs = cooldownMs;
-        this.permissions = permissions;
+ModuleManager.registerParent("massping", 60000, AccessLevels.BROADCASTER, async (args) => {
+    const server_response = await axios.get(`https://tmi.twitch.tv/group/user/${args.Target.Username}/chatters`);
+    const chatters: {[group_name: string]: string[]} = server_response.data.chatters;
+    
+    for (const group of Object.keys(chatters)) {
+        for (const username of chatters[group]) {
+            args.Services.Client.say(`#${args.Target.Username}`, `@${username}, ${args.Message.filtered_msg}`);
+        }
     }
-
-    async run(Arguments: IArguments) {
-        const response = await axios.get(`https://tmi.twitch.tv/group/user/${Arguments.Target.Username}/chatters`);
-        const chatters: {[role_name: string]: string[]} = response.data.chatters;
-        const message: string[] = Arguments.Message.raw.split(' ');
-
-        delete message[0];
-
-        for (var i = 0; i < chatters.vips.length; i++) {
-            Arguments.Services.Client.say(`#${Arguments.Target.Username}`, `@${chatters.vips[i]}, ${message.join(' ').trim()}`);
-        }
-
-        for (var i = 0; i < chatters.moderators.length; i++) {
-            Arguments.Services.Client.say(`#${Arguments.Target.Username}`, `@${chatters.moderators[i]}, ${message.join(' ').trim()}`);
-        }
-
-        for (var i = 0; i < chatters.staff.length; i++) {
-            Arguments.Services.Client.say(`#${Arguments.Target.Username}`, `@${chatters.staff[i]}, ${message.join(' ').trim()}`);
-        }
-
-        for (var i = 0; i < chatters.admins.length; i++) {
-            Arguments.Services.Client.say(`#${Arguments.Target.Username}`, `@${chatters.admins[i]}, ${message.join(' ').trim()}`);
-        }
-
-        for (var i = 0; i < chatters.global_mods.length; i++) {
-            Arguments.Services.Client.say(`#${Arguments.Target.Username}`, `@${chatters.global_mods[i]}, ${message.join(' ').trim()}`);
-        }
-
-        for (var i = 0; i < chatters.viewers.length; i++) {
-            Arguments.Services.Client.say(`#${Arguments.Target.Username}`, `@${chatters.viewers[i]}, ${message.join(' ').trim()}`);
-        }
-
-        return Promise.resolve(true);
-    }
-}
+    
+    return Promise.resolve("");
+});
