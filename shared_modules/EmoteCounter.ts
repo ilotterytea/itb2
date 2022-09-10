@@ -16,91 +16,79 @@
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
 import { Emotes, Target } from "@prisma/client";
-import IArguments from "../apollo/interfaces/IArguments";
-import IModule from "../apollo/interfaces/IModule";
-import IStorage from "../apollo/interfaces/IStorage";
+import { AccessLevels, ModuleManager } from "../apollo/utils/modules/ModuleManager";
 
-export default class EmoteCounter implements IModule.IModule {
-    cooldownMs: number;
-    permissions: number;
+ModuleManager.registerParent("ecount", 5000, AccessLevels.USER, async (args) => {
+    const emote: string = args.Message.filtered_msg.split(' ')[0]
 
-    constructor (cooldownMs: number, permissions: number) {
-        this.cooldownMs = cooldownMs;
-        this.permissions = permissions;
-    }
+    const target: Target | null = await args.Services.DB.target.findFirst({
+        where: {alias_id: parseInt(args.Target.ID)}
+    });
 
-    async run(Arguments: IArguments) {
-        const emote: string = Arguments.Message.raw.split(' ')[1];
+    if (!target) return Promise.reject("No target with ID " + args.Target.ID + " registered in my database!");
 
-        const target: Target | null = await Arguments.Services.DB.target.findFirst({
-            where: {alias_id: parseInt(Arguments.Target.ID)}
-        });
-
-        if (!target) return Promise.resolve(false);
-
-        const stv_emote: Emotes | null = await Arguments.Services.DB.emotes.findFirst({
-            where: {
-                name: emote,
-                targetId: target.id,
-                provider: "stv"
-            }
-        });
-
-        const bttv_emote: Emotes | null = await Arguments.Services.DB.emotes.findFirst({
-            where: {
-                name: emote,
-                targetId: target.id,
-                provider: "bttv"
-            }
-        });
-
-        const ffz_emote: Emotes | null = await Arguments.Services.DB.emotes.findFirst({
-            where: {
-                name: emote,
-                targetId: target.id,
-                provider: "ffz"
-            }
-        });
-
-        const ttv_emote: Emotes | null = await Arguments.Services.DB.emotes.findFirst({
-            where: {
-                name: emote,
-                targetId: target.id,
-                provider: "ttv"
-            }
-        });
-
-        if (stv_emote) {
-            return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.ecount.response", Arguments, [
-                "[7TV]",
-                emote,
-                stv_emote.used_times
-            ]));
+    const stv_emote: Emotes | null = await args.Services.DB.emotes.findFirst({
+        where: {
+            name: emote,
+            targetId: target.id,
+            provider: "stv"
         }
-        if (bttv_emote) {
-            return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.ecount.response", Arguments, [
-                "[BTTV]",
-                emote,
-                bttv_emote.used_times
-            ]));
+    });
+
+    const bttv_emote: Emotes | null = await args.Services.DB.emotes.findFirst({
+        where: {
+            name: emote,
+            targetId: target.id,
+            provider: "bttv"
         }
-        if (ffz_emote) {
-            return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.ecount.response", Arguments, [
-                "[FFZ]",
-                emote,
-                ffz_emote.used_times
-            ]));
+    });
+
+    const ffz_emote: Emotes | null = await args.Services.DB.emotes.findFirst({
+        where: {
+            name: emote,
+            targetId: target.id,
+            provider: "ffz"
         }
-        if (ttv_emote) {
-            return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.ecount.response", Arguments, [
-                "[Twitch]",
-                emote,
-                ttv_emote.used_times
-            ]));
+    });
+
+    const ttv_emote: Emotes | null = await args.Services.DB.emotes.findFirst({
+        where: {
+            name: emote,
+            targetId: target.id,
+            provider: "ttv"
         }
-        return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.ecount.not_found", Arguments, [
-            "",
-            emote
+    });
+
+    if (stv_emote) {
+        return Promise.resolve(await args.Services.Locale.parsedText("cmd.ecount.response", args, [
+            "[7TV]",
+            emote,
+            stv_emote.used_times
         ]));
     }
-}
+    if (bttv_emote) {
+        return Promise.resolve(await args.Services.Locale.parsedText("cmd.ecount.response", args, [
+            "[BTTV]",
+            emote,
+            bttv_emote.used_times
+        ]));
+    }
+    if (ffz_emote) {
+        return Promise.resolve(await args.Services.Locale.parsedText("cmd.ecount.response", args, [
+            "[FFZ]",
+            emote,
+            ffz_emote.used_times
+        ]));
+    }
+    if (ttv_emote) {
+        return Promise.resolve(await args.Services.Locale.parsedText("cmd.ecount.response", args, [
+            "[Twitch]",
+            emote,
+            ttv_emote.used_times
+        ]));
+    }
+    return Promise.resolve(await args.Services.Locale.parsedText("cmd.ecount.not_found", args, [
+        "",
+        emote
+    ]));
+});
