@@ -16,9 +16,8 @@
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
 import { Target } from "@prisma/client";
-import IModule from "./IModule";
+import { AccessLevels } from "../utils/modules/ModuleManager";
 import IServices from "./IServices";
-import IStorage from "./IStorage";
 
 /** Arguments. */
 interface IArguments {
@@ -39,11 +38,7 @@ interface IArguments {
         /** Sender's Twitch ID. */
         ID: string,
 
-        /** Sender's internal role. */
-        intRole?: IStorage.InternalRoles | undefined,
-
-        /** Sender's external role. */
-        extRole?: IModule.AccessLevels | undefined
+        Role: AccessLevels
     },
 
     /** Channel info. */
@@ -60,11 +55,17 @@ interface IArguments {
         /** Raw message. */
         raw: string,
 
-        /** Command. */
-        command: string,
+        /** Primary command to execute (e.g. !ping). */
+        run_ts: string | null,
 
-        /** Options. */
-        options?: {option: string, value: string}[] | undefined
+        /** Secondary command to execute with primary (e.g. !set lang). */
+        command: string | null,
+
+        /** Options to command (e.g. !massping test --separated). */
+        option: [string, string | boolean][],
+
+        /** Message without options, commands. */
+        filtered_msg: string
     },
 
     /** Global settings. */
