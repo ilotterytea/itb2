@@ -16,13 +16,11 @@
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
 import { PrismaClient } from "@prisma/client";
-import EmoteLib from "emotelib";
 import { Client } from "tmi.js";
 import { Logger } from "tslog";
 import AnonymousClient from "./clients/AnonymousClient";
 import TwitchApi from "./clients/ApiClient";
 import ApolloClient from "./clients/ApolloClient";
-import ConfigIni from "./files/ConfigIni";
 import LocalStorage from "./files/LocalStorage";
 import Symlinks from "./files/Symlinks";
 import { AnonMessageHandler } from "./handlers/AnonMessageHandler";
@@ -31,7 +29,6 @@ import TimerHandler from "./handlers/TimerHandler";
 import IConfiguration from "./interfaces/IConfiguration";
 import EmoteUpdater from "./utils/emotes/EmoteUpdater";
 import Localizator from "./utils/Locale";
-import ModuleManager from "./utils/ModuleManager";
 const log: Logger = new Logger({name: "itb2-main"});
 
 async function ApolloInit(
@@ -44,13 +41,8 @@ async function ApolloInit(
     Prisma: PrismaClient,
     Storage?: LocalStorage
 ) {
-
-    const Modules: ModuleManager = new ModuleManager();
-
     const Timer: TimerHandler = new TimerHandler(Prisma);
     await Timer.init(symlinks.getSymlinks());
-
-    Modules.init();
 
     const TmiClient: Client = ApolloClient(
         Config.Authorization.Username,
@@ -83,7 +75,6 @@ async function ApolloInit(
             Client: TmiClient,
             Locale: Locale,
             Emote: Emotes,
-            Module: Modules,
             DB: Prisma,
             TwitchApi: TmiApi,
             Timer: Timer,

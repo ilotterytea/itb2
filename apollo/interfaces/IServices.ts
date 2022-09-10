@@ -23,7 +23,6 @@ import Symlinks from "../files/Symlinks";
 import TimerHandler from "../handlers/TimerHandler";
 import EmoteUpdater from "../utils/emotes/EmoteUpdater";
 import Localizator from "../utils/Locale";
-import ModuleManager from "../utils/ModuleManager";
 
 interface IServices {
     Client: Client,
@@ -32,7 +31,6 @@ interface IServices {
     DB: PrismaClient,
     Symlinks: Symlinks
     Locale: Localizator,
-    Module?: ModuleManager | undefined,
     Emote?: EmoteUpdater | undefined,
     Timer?: TimerHandler | undefined,
     AnonClient?: Client

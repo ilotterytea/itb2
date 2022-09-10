@@ -16,23 +16,17 @@
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
 import { Chain, CustomResponses, Target, User } from "@prisma/client";
-import { Argument } from "commander";
 import {
     ChatUserstate,
     Client
 } from "tmi.js";
 import { Logger } from "tslog";
-import TwitchApi from "../clients/ApiClient";
-import LocalStorage from "../files/LocalStorage";
-import { Token, Tokenize } from "../fun/markov/Tokenize";
 import IArguments from "../interfaces/IArguments";
-import IModule from "../interfaces/IModule";
 import IServices from "../interfaces/IServices";
-import IStorage from "../interfaces/IStorage";
-import EmoteUpdater from "../utils/emotes/EmoteUpdater";
-import Localizator from "../utils/Locale";
-import ModuleManager from "../utils/ModuleManager";
-import TimerHandler from "./TimerHandler";
+import CommandFormatter from "../utils/commands/CommandFormatter";
+import { ModuleManager, AccessLevels } from "../utils/modules/ModuleManager";
+
+import "../../shared_modules/ImportedModules";
 
 const log: Logger = new Logger({name: "Messages"});
 
@@ -101,7 +95,7 @@ namespace Messages {
                 Sender: {
                     Username: user.username!,
                     ID: user["user-id"]!,
-                    extRole: IModule.AccessLevels.PUBLIC
+                    Role: AccessLevels.USER
                 },
                 Target: {
                     Username: channel.slice(1, channel.length),
@@ -109,18 +103,21 @@ namespace Messages {
                 },
                 Message: {
                     raw: message,
-                    command: (message.startsWith(prefix)) ? message.split(prefix)[1].split(' ')[0] : ""
+                    run_ts: CommandFormatter.parseCommand(message, prefix),
+                    command: CommandFormatter.parseCommand(message, prefix, true),
+                    option: CommandFormatter.parseOptions(message),
+                    filtered_msg: CommandFormatter.parseMessage(message, CommandFormatter.parseCommand(message, prefix) + " " + CommandFormatter.parseCommand(message, prefix, true), CommandFormatter.parseOptions(message))
                 }
             }
 
             // Assigning the roles:
             if (userDb !== null && userDb.int_role !== null) {
-                args.Sender.intRole = userDb.int_role;
+                args.Sender.Role = userDb.int_role;
+            } else {
+                if (args.Target.ID === args.Sender.ID) args.Sender.Role = AccessLevels.BROADCASTER;
+                if (user["badges"]?.moderator === "1") args.Sender.Role = AccessLevels.MOD;
+                if (user["badges"]?.vip === "1") args.Sender.Role = AccessLevels.VIP;
             }
-
-            if (args.Target.ID === args.Sender.ID) args.Sender.extRole = IModule.AccessLevels.BROADCASTER;
-            if (user["badges"]?.moderator === "1") args.Sender.extRole = IModule.AccessLevels.MOD;
-            if (user["badges"]?.vip === "1") args.Sender.extRole = IModule.AccessLevels.VIP;
 
             // +1 chat line to the target's file:
             await Services.DB.target.update({
@@ -210,14 +207,9 @@ namespace Messages {
             }
 
             // Start processing the commands:
-            if (message.startsWith(prefix)) {
-                // Execute command if it exists:
-                if (Services.Module === undefined) throw new Error("Cannot process the commands. No module instances assigned to services.");
-                
-                if (Services.Module.contains(args.Message.command)) {
-                    const response: boolean | string = await Services.Module.call(args.Message.command, args);
-
-                    if (typeof response === "boolean") return;
+            if (args.Message.run_ts) {
+                if (ModuleManager.contains(args.Message.run_ts)) {
+                    const response: string = await ModuleManager.run(args.Message.run_ts, args);
 
                     Services.Client.say(`#${args.Target.Username}`, response);
                 }
