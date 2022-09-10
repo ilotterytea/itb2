@@ -15,15 +15,17 @@
 // You should have received a copy of the GNU General Public License
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
-import child from "child_process";
-import { AccessLevels, ModuleManager } from "../apollo/utils/modules/ModuleManager";
+// PUT YOUR MODULES HERE:
+// EXAMPLE: import "./<FILE_NAME>";
 
-ModuleManager.registerParent("system", 0, AccessLevels.SUPAUSER, async (args) => {
-    return Promise.resolve("");
-});
-
-ModuleManager.registerChild("system", "pull", async (args) => {
-    await args.Services.Client.say(args.Target.Username, await args.Services.Locale.parsedText("cmd.system.pull", args));
-    child.exec("git pull");
-    return Promise.resolve("");
-});
+import "./EmoteCounter";
+import "./EmoteTop";
+import "./JoinChat";
+import "./Massping";
+import "./Ping";
+import "./Settings";
+import "./Spam";
+import "./StaticCmds";
+import "./SystemProcess";
+import "./TimerCreator";
+import "./UserData";

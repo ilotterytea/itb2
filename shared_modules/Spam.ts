@@ -15,53 +15,30 @@
 // You should have received a copy of the GNU General Public License
 // along with itb2.  If not, see <http://www.gnu.org/licenses/>.
 
-import IArguments from "../apollo/interfaces/IArguments";
-import IModule from "../apollo/interfaces/IModule";
+import { AccessLevels, ModuleManager } from "../apollo/utils/modules/ModuleManager";
 
-export default class Spam implements IModule.IModule {
-    cooldownMs: number;
-    permissions: number;
-    constructor (cooldownMs: number, permissions: number) {
-        this.cooldownMs = cooldownMs;
-        this.permissions = permissions;
+ModuleManager.registerParent("spam", 32767, AccessLevels.MOD, async (args) => {
+    var _msg: string[] = args.Message.filtered_msg.split(' ');
+    const count: number = parseInt(_msg[0]);
+    const max_count: number = 32;
+    const commandRegex: RegExp = /^(!|#|\$|%|\^|&|\*|\(|\)|-|=|\+|\\|\/|:|"|'|\[|\]|\||<|>|\?|\.)/;
+
+
+    if (isNaN(count)) return Promise.resolve(await args.Services.Locale.parsedText("cmd.spam.unresolved_number", args, [
+        _msg[0]
+    ]));
+
+    if (count > max_count) return Promise.resolve(await args.Services.Locale.parsedText("cmd.spam.limit_reached", args, [
+        max_count
+    ]));
+
+    if (commandRegex.test(_msg.join(' ').trim())) return Promise.resolve(await args.Services.Locale.parsedText("cmd.spam.forbidden_symbol", args));
+
+    delete _msg[0];
+
+    for (var i = 0; i < count; i++) {
+        args.Services.Client.say(`#${args.Target.Username}`, _msg.join(' ').trim());
     }
 
-    async run(Arguments: IArguments) {
-        var count: number = parseInt(Arguments.Message.raw.split(' ')[1]);
-
-        if (isNaN(count)) {
-            return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.spam.unresolved_number", Arguments, [
-                Arguments.Message.raw.split(' ')[1]
-            ]));
-        }
-
-        if (count > 32) {
-            return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.spam.limit_reached", Arguments, [
-                32
-            ]));
-        }
-
-        var message: string[] = Arguments.Message.raw.split(' ');
-
-        var useCounter: boolean | undefined = (message.includes("-c") || message.includes("--counter")) ? true : false;
-
-        message = message.filter(m => m !== "-c");
-        message = message.filter(m => m !== "--counter");
-
-        var commandRegex: RegExp = /^(!|#|\$|%|\^|&|\*|\(|\)|-|=|\+|\\|\/|:|"|'|\[|\]|\||<|>|\?|\.)/;
-        
-        delete message[0];
-        delete message[1];
-
-        if (commandRegex.test(message.join(' ').trim())) {
-            return Promise.resolve(await Arguments.Services.Locale.parsedText("cmd.spam.forbidden_symbol", Arguments));
-        }
-
-        for (var index = 0; index < count; index++) {
-            Arguments.Services.Client.say(Arguments.Target.Username, `${message.join(' ')} ${(useCounter) ? index + 1 : ""}`)
-        }
-
-        // 👍:
-        return Promise.resolve(true);
-    }
-}
+    return Promise.resolve("");
+});
