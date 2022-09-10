@@ -21,11 +21,25 @@ import { AccessLevels, ModuleManager } from "../apollo/utils/modules/ModuleManag
 ModuleManager.registerParent("massping", 60000, AccessLevels.BROADCASTER, async (args) => {
     const server_response = await axios.get(`https://tmi.twitch.tv/group/user/${args.Target.Username}/chatters`);
     const chatters: {[group_name: string]: string[]} = server_response.data.chatters;
-    
+    var message: string[][] = [];
+    var index: number = 0;
+
     for (const group of Object.keys(chatters)) {
-        for (const username of chatters[group]) {
-            args.Services.Client.say(`#${args.Target.Username}`, `@${username}, ${args.Message.filtered_msg}`);
+        for (var i: number = 0; i < chatters[group].length; i++) {
+            if (!message[index]) message[index] = [];
+            const _msg: number = message[index].join(' ').length;
+
+            if (_msg + args.Message.filtered_msg.length + `@${chatters[group][i]}, `.length > 500) {
+                index++;
+                message[index] = [];
+            }
+
+            message[index].push(`@${chatters[group][i]}, `);
         }
+    }
+
+    for (const msg of message) {
+        args.Services.Client.say(`#${args.Target.Username}`, msg.join('') + args.Message.filtered_msg);
     }
     
     return Promise.resolve("");
