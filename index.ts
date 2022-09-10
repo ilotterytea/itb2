@@ -23,7 +23,6 @@ import IConfiguration from "./apollo/interfaces/IConfiguration";
 import CLI from "./apollo/utils/CLI";
 import ServerInit from "./www/ServerInit";
 import TwitchApi from "./apollo/clients/ApiClient";
-import LocalStorage from "./apollo/files/LocalStorage";
 import { PrismaClient } from "@prisma/client";
 import Localizator from "./apollo/utils/Locale";
 import Symlinks from "./apollo/files/Symlinks";
