@@ -144,6 +144,16 @@ type LineIds =
 "cmd.system.not_found" |
 // User command:
 "cmd.user.lookup" |
+"cmd.user.lookup.bio" |
+"cmd.user.lookup.color" |
+"cmd.user.lookup.partner" |
+"cmd.user.lookup.affiliate" |
+"cmd.user.lookup.bot" |
+"cmd.user.lookup.banned" |
+"cmd.user.lookup.7tv.joined" |
+"cmd.user.lookup.7tv.emotes" |
+"cmd.user.lookup.7tv.editors" |
+"cmd.user.lookup.7tv.role" |
 "cmd.user.rules" |
 "cmd.user.picture" |
 // Settings command:
