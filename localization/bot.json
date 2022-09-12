@@ -423,17 +423,57 @@
         "en_us": "forsenLevel Mode ${0} not found for !system command.",
         "ru_ru": "forsenLevel Режим ${0} не найден для команды !system."
     },
+    "cmd.user.lookup.bio": {
+        "en_us": "📜 Bio: ${0}",
+        "ru_ru": "📜 Биография: ${0}"
+    },
+    "cmd.user.lookup.color": {
+        "en_us": "🖌 Color: ${0}",
+        "ru_ru": "🖌 Цвет: ${0}"
+    },
+    "cmd.user.lookup.partner": {
+        "en_us": "✅ Got an partner status!",
+        "ru_ru": "✅ Получил статус партнёра!"
+    },
+    "cmd.user.lookup.affiliate": {
+        "en_us": "✅ Got an affiliate status!",
+        "ru_ru": "✅ Получил статус компаньона!"
+    },
+    "cmd.user.lookup.bot": {
+        "en_us": "🤖 Is a bot",
+        "ru_ru": "🤖 Является ботом"
+    },
+    "cmd.user.lookup.banned": {
+        "en_us": "⛔ Banned!",
+        "ru_ru": "⛔ Забанен!"
+    },
+    "cmd.user.lookup.7tv.joined": {
+        "en_us": "🚪 Joined 7TV on ${0}",
+        "ru_ru": "🚪 Присоединился к 7TV: ${0}"
+    },
+    "cmd.user.lookup.7tv.emotes": {
+        "en_us": "😃 Occupied ${0} of ${1} 7TV emotes",
+        "ru_ru": "😃 Занято ${0} из ${1} 7TV эмоутов"
+    },
+    "cmd.user.lookup.7tv.editors": {
+        "en_us": "✏ ${0} emote editors actively",
+        "ru_ru": "✏ Активно ${0} редакторов эмоутов"
+    },
+    "cmd.user.lookup.7tv.role": {
+        "en_us": "🏷 7TV Role: ${0}",
+        "ru_ru": "🏷 Роль на 7TV: ${0}"
+    },
     "cmd.user.lookup": {
-        "en_us": "@${USER.NAME}, FeelsDankMan 🔎 ${0} (${1}, ${2}) | Bio: ${3} | Color: ${4} | Partner: ${5} | Affiliate: ${6} | Bot: ${7} | Banned: ${8}",
-        "ru_ru": "@${USER.NAME}, FeelsDankMan 🔎 ${0} (${1}, ${2}) | Биография: ${3} | Цвет: ${4} | Партнёр: ${5} | Компаньон: ${6} | Бот: ${7} | Забанен: ${8}"
+        "en_us": "${0} (${1}, ${2})",
+        "ru_ru": "${0} (${1}, ${2})"
     },
     "cmd.user.rules": {
         "en_us": "@${USER.NAME}, FeelsDankMan 🔎📜 The rules of ${0}'s (${1}) chat room: ${2}",
         "ru_ru": "@${USER.NAME}, FeelsDankMan 🔎📜 Правила чата ${0} (${1}): ${2}"
     },
     "cmd.user.picture": {
-        "en_us": "@${USER.NAME}, FeelsDankMan 🔎🖼️ The profile picture of ${0} (${1}): ${2}",
-        "ru_ru": "@${USER.NAME}, FeelsDankMan 🔎🖼️ Аватарка пользователя ${0} (${1}): ${2}"
+        "en_us": "@${USER.NAME}, FeelsDankMan 🔎🖼️ The profile picture of ${0} (${1}) on Twitch: ${2} ${3}",
+        "ru_ru": "@${USER.NAME}, FeelsDankMan 🔎🖼️ Аватарка пользователя ${0} (${1}) на Twitch: ${2} ${3}"
     },
     "cmd.set.language.success": {
         "en_us": "@${USER.NAME}, the bot speaks on English now! KKona",
