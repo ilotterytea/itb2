@@ -88,6 +88,7 @@ namespace Messages {
             }
 
             const prefix: string = (targetDb.prefix) ? targetDb.prefix : (globalTarget.prefix) ? globalTarget.prefix : "!";
+            const markov_regex: RegExp = new RegExp(/^((@)?imteabot(,)?).*/i);
 
             // Arguments:
             var args: IArguments = {
@@ -149,8 +150,8 @@ namespace Messages {
             }
 
             // Call the markov:
-            if (/^((@)?imteabot(,)?).*/.test(args.Message.raw)) {
-                const _message: string[] = args.Message.raw.replace(/^((@)?imteabot(,)?)/, "").trim().split(' ');
+            if (markov_regex.test(args.Message.raw)) {
+                const _message: string[] = args.Message.raw.replace(/^((@)?imteabot(,)?)/i, "").trim().split(' ');
                 var chain_message: string = "";
                 console.log(_message);
 
