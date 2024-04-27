@@ -17,6 +17,7 @@ import kz.ilotterytea.bot.i18n.I18N;
 import kz.ilotterytea.bot.thirdpartythings.seventv.eventapi.SevenTVEventAPIClient;
 import kz.ilotterytea.bot.utils.HibernateUtil;
 import kz.ilotterytea.bot.utils.StorageUtils;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,27 +150,31 @@ public class Huinyabot extends Bot {
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                Session session1 = HibernateUtil.getSessionFactory().openSession();
-                final Date CURRENT_DATE = new Date();
+                try {
+                    Session session1 = HibernateUtil.getSessionFactory().openSession();
+                    final Date CURRENT_DATE = new Date();
 
-                List<kz.ilotterytea.bot.entities.Timer> timers = session1.createQuery("from Timer", kz.ilotterytea.bot.entities.Timer.class).getResultList();
+                    List<kz.ilotterytea.bot.entities.Timer> timers = session1.createQuery("from Timer", kz.ilotterytea.bot.entities.Timer.class).getResultList();
 
-                session1.getTransaction().begin();
+                    session1.getTransaction().begin();
 
-                for (kz.ilotterytea.bot.entities.Timer timer : timers) {
-                    if (CURRENT_DATE.getTime() - timer.getLastTimeExecuted().getTime() > timer.getIntervalMilliseconds()) {
-                        client.getChat().sendMessage(
-                                timer.getChannel().getAliasName(),
-                                timer.getMessage()
-                        );
+                    for (kz.ilotterytea.bot.entities.Timer timer : timers) {
+                        if (CURRENT_DATE.getTime() - timer.getLastTimeExecuted().getTime() > timer.getIntervalMilliseconds()) {
+                            client.getChat().sendMessage(
+                                    timer.getChannel().getAliasName(),
+                                    timer.getMessage()
+                            );
 
-                        timer.setLastTimeExecuted(new Date());
-                        session1.persist(timer);
+                            timer.setLastTimeExecuted(new Date());
+                            session1.persist(timer);
+                        }
                     }
-                }
 
-                session1.getTransaction().commit();
-                session1.close();
+                    session1.getTransaction().commit();
+                    session1.close();
+                } catch (HibernateException e) {
+                    LOGGER.error("Failed to run timers", e);
+                }
             }
         }, 2500, 2500);
 
