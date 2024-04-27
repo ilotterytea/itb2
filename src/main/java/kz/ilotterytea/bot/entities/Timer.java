@@ -28,18 +28,18 @@ public class Timer {
     @Column(nullable = false)
     private String message;
 
-    @Column(name = "interval_ms", nullable = false)
-    private Integer intervalMilliseconds;
+    @Column(name = "interval_sec", nullable = false)
+    private Integer intervalSeconds;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "last_executed_at", nullable = false)
     private Date lastTimeExecuted;
 
-    public Timer(Channel channel, String name, String message, Integer intervalMilliseconds) {
+    public Timer(Channel channel, String name, String message, Integer intervalSeconds) {
         this.channel = channel;
         this.name = name;
         this.message = message;
-        this.intervalMilliseconds = intervalMilliseconds;
+        this.intervalSeconds = intervalSeconds;
         this.lastTimeExecuted = new Date();
     }
 
@@ -69,12 +69,12 @@ public class Timer {
         this.name = name;
     }
 
-    public Integer getIntervalMilliseconds() {
-        return intervalMilliseconds;
+    public Integer getIntervalSeconds() {
+        return intervalSeconds;
     }
 
-    public void setIntervalMilliseconds(Integer intervalMilliseconds) {
-        this.intervalMilliseconds = intervalMilliseconds;
+    public void setIntervalSeconds(Integer intervalSeconds) {
+        this.intervalSeconds = intervalSeconds;
     }
 
     public Channel getChannel() {

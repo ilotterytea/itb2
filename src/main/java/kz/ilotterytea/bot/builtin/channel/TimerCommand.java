@@ -93,10 +93,10 @@ public class TimerCommand implements Command {
                 ));
             }
 
-            int intervalMs;
+            int intervalSec;
 
             try {
-                intervalMs = Integer.parseInt(s.get(0));
+                intervalSec = Integer.parseInt(s.get(0));
                 s.remove(0);
             } catch (NumberFormatException e){
                 return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
@@ -106,7 +106,7 @@ public class TimerCommand implements Command {
                 ));
             }
 
-            Timer timer = new Timer(channel, timerId, String.join(" ", s), intervalMs);
+            Timer timer = new Timer(channel, timerId, String.join(" ", s), intervalSec);
             channel.addTimer(timer);
 
             session.persist(timer);
@@ -143,7 +143,7 @@ public class TimerCommand implements Command {
                         channel.getPreferences().getLanguage(),
                         LineIds.C_TIMER_INFO,
                         timerId,
-                        String.valueOf(timer.getIntervalMilliseconds()),
+                        String.valueOf(timer.getIntervalSeconds()),
                         timer.getMessage()
                 ));
             default:
@@ -183,7 +183,7 @@ public class TimerCommand implements Command {
                     ));
                 }
 
-                timer.setIntervalMilliseconds(interval);
+                timer.setIntervalSeconds(interval);
 
                 session.persist(timer);
 
