@@ -48,7 +48,7 @@ public class MasspingCommand implements Command {
 
         try {
             chatters = Huinyabot.getInstance().getClient().getHelix().getChatters(
-                    SharedConstants.TWITCH_ACCESS_TOKEN,
+                    SharedConstants.TWITCH_OAUTH2_TOKEN,
                     channel.getAliasId().toString(),
                     Huinyabot.getInstance().getCredential().getUserId(),
                     null,

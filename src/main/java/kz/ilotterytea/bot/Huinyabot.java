@@ -50,8 +50,8 @@ public class Huinyabot extends Bot {
 
     @Override
     public void init() {
-        if (SharedConstants.TWITCH_ACCESS_TOKEN == null || SharedConstants.TWITCH_OAUTH2_TOKEN == null) {
-            LOGGER.error("No Twitch access token or Twitch OAuth2 token has been provided!");
+        if (SharedConstants.TWITCH_OAUTH2_TOKEN == null) {
+            LOGGER.error("No Twitch OAuth2 token has been provided!");
             return;
         }
         loader = new CommandLoader();

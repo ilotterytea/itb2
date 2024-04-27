@@ -91,7 +91,7 @@ public class StreamEventHandlers {
             try {
                 List<Chatter> chatters = BOT.getClient().getHelix()
                         .getChatters(
-                                SharedConstants.TWITCH_ACCESS_TOKEN,
+                                SharedConstants.TWITCH_OAUTH2_TOKEN,
                                 channel.getAliasId().toString(),
                                 BOT.getCredential().getUserId(),
                                 1000,
