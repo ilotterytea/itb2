@@ -23,4 +23,9 @@ public class DocsController {
 
         return contents.map(s -> new Response<>(200, null, s)).orElseGet(() -> new Response<>(404, "Docs " + name + " not found", null));
     }
+
+    @Get
+    public Response<String> getAvailableDocs() {
+        return this.getDocs("summary");
+    }
 }
