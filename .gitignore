@@ -42,6 +42,3 @@ bin/
 # Configuration properties
 config.properties
 hibernate.cfg.xml
-
-# Legacy JSON files
-*.json
