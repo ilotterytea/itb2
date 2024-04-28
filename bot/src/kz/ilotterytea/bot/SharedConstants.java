@@ -1,7 +1,7 @@
 package kz.ilotterytea.bot;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -28,8 +28,8 @@ public class SharedConstants {
     static {
         Properties properties = new Properties();
 
-        try (FileInputStream fileInputStream = new FileInputStream(PROPERTIES_PATH)) {
-            properties.load(fileInputStream);
+        try (InputStream stream = Thread.currentThread().getContextClassLoader().getResourceAsStream(PROPERTIES_PATH)){
+            properties.load(stream);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
