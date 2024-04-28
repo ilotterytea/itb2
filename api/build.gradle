@@ -1,5 +1,6 @@
 plugins {
     id("io.micronaut.application") version "3.7.10"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
 }
 
 graalvmNative.toolchainDetection = false
@@ -17,6 +18,9 @@ sourceSets.main.resources.srcDirs = ["../resources"]
 
 application {
     mainClass = "kz.ilotterytea.huinya.api.Main"
+}
+shadowJar {
+    archiveFileName = "${rootProject.name}-api.jar"
 }
 
 eclipse.project.name = appName + "-api"
