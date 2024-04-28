@@ -5,6 +5,7 @@ import com.github.twitch4j.helix.domain.Chatter;
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.SharedConstants;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.events.Event;
 import kz.ilotterytea.bot.entities.events.EventFlag;
@@ -46,9 +47,9 @@ public class EventCommand implements Command {
     public List<String> getAliases() { return List.of("events", "ev"); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
         if (message.getSubcommandId().isEmpty()) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_SUBCMD
             ));
@@ -71,12 +72,12 @@ public class EventCommand implements Command {
             }
 
             if (events.isEmpty()) {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+                return Response.single(Huinyabot.getInstance().getLocale().literalText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_NOEVENTS
                 ));
             } else {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_LIST,
                         channel.getAliasName(),
@@ -103,7 +104,7 @@ public class EventCommand implements Command {
         }
 
         if (message.getMessage().isEmpty()) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_MESSAGE
             ));
@@ -136,7 +137,7 @@ public class EventCommand implements Command {
                     ).execute().getUsers();
 
                     if (users.isEmpty()) {
-                        return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+                        return Response.single(Huinyabot.getInstance().getLocale().literalText(
                                 channel.getPreferences().getLanguage(),
                                 LineIds.NO_TWITCH_USER
                         ));
@@ -146,7 +147,7 @@ public class EventCommand implements Command {
                 } catch (Exception e) {
                     e.printStackTrace();
 
-                    return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+                    return Response.single(Huinyabot.getInstance().getLocale().literalText(
                             channel.getPreferences().getLanguage(),
                             LineIds.SOMETHING_WENT_WRONG
                     ));
@@ -174,7 +175,7 @@ public class EventCommand implements Command {
         if (subcommandId.equals("off")) {
             if (optionalEvent.isEmpty()) {
                 
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_NOTEXISTS,
                         formattedEventName
@@ -196,7 +197,7 @@ public class EventCommand implements Command {
 
             session.remove(optionalEvent.get());
 
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+            return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                     channel.getPreferences().getLanguage(),
                     LineIds.C_EVENT_OFF,
                     formattedEventName
@@ -206,7 +207,7 @@ public class EventCommand implements Command {
         if (subcommandId.equals("call")) {
             if (optionalEvent.isEmpty()) {
                 
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_NOTEXISTS,
                         formattedEventName
@@ -243,7 +244,7 @@ public class EventCommand implements Command {
 
             if (names.isEmpty()) {
                 
-                return Optional.ofNullable(ANNOUNCEMENT_LINE);
+                return Response.single(ANNOUNCEMENT_LINE);
             }
 
             List<String> formattedNames = StringUtils.joinStringsWithFixedLength(
@@ -267,11 +268,11 @@ public class EventCommand implements Command {
             }
 
             
-            return Optional.empty();
+            return null;
         }
 
         if (msgSplit.isEmpty()) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_MESSAGE
             ));
@@ -286,7 +287,7 @@ public class EventCommand implements Command {
 
                 session.merge(event1);
 
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_ONUPDATE,
                         formattedEventName
@@ -309,7 +310,7 @@ public class EventCommand implements Command {
             session.merge(channel);
 
             if (eventType == EventType.CUSTOM) {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_ONCUSTOM,
                         eventName,
@@ -317,7 +318,7 @@ public class EventCommand implements Command {
                         eventName
                 ));
             } else {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_ON,
                         eventType.getName(),
@@ -327,7 +328,7 @@ public class EventCommand implements Command {
         }
 
         if (optionalEvent.isEmpty()) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+            return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                     channel.getPreferences().getLanguage(),
                     LineIds.C_EVENT_NOTEXISTS,
                     formattedEventName
@@ -341,7 +342,7 @@ public class EventCommand implements Command {
 
             if (optionalEventFlag.isEmpty()) {
                 
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_FLAGNOTEXISTS,
                         finalMsg,
@@ -356,7 +357,7 @@ public class EventCommand implements Command {
 
                 session.merge(event1);
 
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_EVENT_UNFLAG,
                         eventFlag.getName(),
@@ -368,7 +369,7 @@ public class EventCommand implements Command {
 
             session.merge(event1);
 
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+            return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                     channel.getPreferences().getLanguage(),
                     LineIds.C_EVENT_FLAG,
                     eventFlag.getName(),
@@ -376,6 +377,6 @@ public class EventCommand implements Command {
             ));
         }
 
-        return Optional.empty();
+        return null;
     }
 }

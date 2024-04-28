@@ -5,6 +5,7 @@ import com.github.twitch4j.helix.domain.Chatter;
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.SharedConstants;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.permissions.Permission;
 import kz.ilotterytea.bot.entities.permissions.UserPermission;
@@ -16,7 +17,6 @@ import org.hibernate.Session;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Ping em, Fors! LUL
@@ -43,7 +43,7 @@ public class MasspingCommand implements Command {
     public List<String> getAliases() { return List.of("mp", "масспинг", "мп", "massbing"); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
         List<Chatter> chatters;
 
         try {
@@ -55,7 +55,7 @@ public class MasspingCommand implements Command {
                     null
             ).execute().getChatters();
         } catch (Exception e) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.C_MASSPING_NOTMOD
             ));

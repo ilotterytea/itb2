@@ -3,6 +3,7 @@ package kz.ilotterytea.bot.builtin.misc;
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.SharedConstants;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.permissions.Permission;
 import kz.ilotterytea.bot.entities.permissions.UserPermission;
@@ -13,13 +14,11 @@ import kz.ilotterytea.bot.utils.ParsedMessage;
 import kz.ilotterytea.bot.utils.StringUtils;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import com.github.twitch4j.chat.events.channel.IRCMessageEvent;
 import org.hibernate.Session;
@@ -49,7 +48,7 @@ public class PingCommand implements Command {
     public List<String> getAliases() { return List.of("pong", "пинг", "понг"); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
         long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
 
         String ut = StringUtils.formatTimestamp(uptime / 1000);
@@ -64,7 +63,7 @@ public class PingCommand implements Command {
         // Getting info about Stats:
         String statsStatus;
 
-        try (Response response = client.newCall(new Request.Builder()
+        try (okhttp3.Response response = client.newCall(new Request.Builder()
                 .get()
                 .url(SharedConstants.STATS_URL + "/api/v1/health")
                 .build()
@@ -79,7 +78,7 @@ public class PingCommand implements Command {
             statsStatus = "N/A";
         }
 
-        return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+        return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                 channel.getPreferences().getLanguage(),
                 LineIds.C_PING_SUCCESS,
                 System.getProperty("java.version"),

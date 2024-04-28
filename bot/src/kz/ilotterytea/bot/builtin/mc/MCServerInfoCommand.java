@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.SharedConstants;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.permissions.Permission;
 import kz.ilotterytea.bot.entities.permissions.UserPermission;
@@ -14,13 +15,11 @@ import kz.ilotterytea.bot.models.serverresponse.mc.ServerInfo;
 import kz.ilotterytea.bot.utils.ParsedMessage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import org.hibernate.Session;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * A command for getting info about Minecraft servers.
@@ -47,9 +46,9 @@ public class MCServerInfoCommand implements Command {
     public List<String> getAliases() { return List.of("mcsrv", "mcs"); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
         if (message.getMessage().isEmpty()) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_MESSAGE
             ));
@@ -61,9 +60,9 @@ public class MCServerInfoCommand implements Command {
                 .url(SharedConstants.MCSRVSTATUS_ENDPOINT + "/" + message.getMessage().get())
                 .build();
 
-        try (Response response = client.newCall(request).execute()){
+        try (okhttp3.Response response = client.newCall(request).execute()){
             if (response.body() == null || response.code() != 200) {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.HTTP_ERROR,
                         String.valueOf(response.code()),
@@ -74,14 +73,14 @@ public class MCServerInfoCommand implements Command {
             ServerInfo serverInfo = new Gson().fromJson(response.body().string(), ServerInfo.class);
 
             if (!serverInfo.getOnline()) {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.C_MCSERVER_SERVERISOFFLINE,
                         serverInfo.getHostname()
                 ));
             }
 
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+            return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                     channel.getPreferences().getLanguage(),
                     LineIds.C_MCSERVER_SUCCESS,
                     serverInfo.getHostname(),
@@ -91,7 +90,7 @@ public class MCServerInfoCommand implements Command {
                     serverInfo.getVersion()
             ));
         } catch (IOException e) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.SOMETHING_WENT_WRONG
             ));

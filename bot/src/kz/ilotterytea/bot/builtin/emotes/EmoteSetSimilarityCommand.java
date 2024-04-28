@@ -3,6 +3,7 @@ package kz.ilotterytea.bot.builtin.emotes;
 import com.github.twitch4j.chat.events.channel.IRCMessageEvent;
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.permissions.Permission;
 import kz.ilotterytea.bot.entities.permissions.UserPermission;
@@ -16,7 +17,6 @@ import org.hibernate.Session;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Emote set similarity command.
@@ -43,9 +43,9 @@ public class EmoteSetSimilarityCommand implements Command {
     public List<String> getAliases() { return Collections.singletonList("esim"); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
         if (message.getMessage().isEmpty()) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_MESSAGE
             ));
@@ -65,7 +65,7 @@ public class EmoteSetSimilarityCommand implements Command {
         }
 
         if (originChannel.equals(targetChannel)) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.SAME_TWITCH_USER
             ));
@@ -83,7 +83,7 @@ public class EmoteSetSimilarityCommand implements Command {
                 .getUsers();
 
         if (userList.size() <= 1) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_TWITCH_USER
             ));
@@ -97,7 +97,7 @@ public class EmoteSetSimilarityCommand implements Command {
         kz.ilotterytea.bot.thirdpartythings.seventv.api.schemas.User targetSTVUser = SevenTVAPIClient.getUser(Integer.parseInt(targetUser.getId()));
 
         if (originSTVUser == null || targetSTVUser == null) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_EMOTE_SET
             ));
@@ -115,7 +115,7 @@ public class EmoteSetSimilarityCommand implements Command {
         }
 
         if (similarity == 0) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+            return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                     channel.getPreferences().getLanguage(),
                     LineIds.C_ESIMILARITY_NOSIMILARITY,
                     Huinyabot.getInstance().getLocale().literalText(
@@ -129,7 +129,7 @@ public class EmoteSetSimilarityCommand implements Command {
 
         double percentage = ((float) similarity / (float) targetEmoteSet.getEmotes().size()) * 100.0f;
 
-        return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+        return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                 channel.getPreferences().getLanguage(),
                 LineIds.C_ESIMILARITY_SUCCESS,
                 Huinyabot.getInstance().getLocale().literalText(

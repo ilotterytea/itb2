@@ -2,6 +2,7 @@ package kz.ilotterytea.bot.handlers;
 
 import com.github.twitch4j.chat.events.channel.IRCMessageEvent;
 import kz.ilotterytea.bot.Huinyabot;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.CustomCommand;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.channels.ChannelPreferences;
@@ -132,7 +133,7 @@ public class MessageHandlerSamples {
         if (parsedMessage.isPresent()) {
             session.getTransaction().begin();
 
-        	Optional<String> response = bot.getLoader().call(
+        	Optional<Response> response = bot.getLoader().call(
         			parsedMessage.get().getCommandId(),
                     session,
             		e,
@@ -143,12 +144,27 @@ public class MessageHandlerSamples {
             );
         	
         	if (response.isPresent()) {
-                bot.getClient().getChat().sendMessage(
-                        e.getChannel().getName(),
-                        response.get(),
-                        null,
-                        (e.getMessageId().isEmpty()) ? null : e.getMessageId().get()
-                );
+                Response data = response.get();
+
+                if (data.getSingle().isPresent()) {
+                    bot.getClient().getChat().sendMessage(
+                            e.getChannel().getName(),
+                            data.getSingle().get(),
+                            null,
+                            (e.getMessageId().isEmpty()) ? null : e.getMessageId().get()
+                    );
+                }
+
+                if (data.getMultiple().isPresent()) {
+                    for (String line : data.getMultiple().get()) {
+                        bot.getClient().getChat().sendMessage(
+                                e.getChannel().getName(),
+                                line,
+                                null,
+                                (e.getMessageId().isEmpty()) ? null : e.getMessageId().get()
+                        );
+                    }
+                }
             }
 
             session.getTransaction().commit();

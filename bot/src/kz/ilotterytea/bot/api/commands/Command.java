@@ -1,6 +1,7 @@
 package kz.ilotterytea.bot.api.commands;
 
 import com.github.twitch4j.chat.events.channel.IRCMessageEvent;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.permissions.Permission;
 import kz.ilotterytea.bot.entities.permissions.UserPermission;
@@ -56,7 +57,7 @@ public interface Command {
      * @author ilotterytea
      * @return response.
      */
-    Optional<String> run(
+    Response run(
             Session session,
             IRCMessageEvent event,
             ParsedMessage message,

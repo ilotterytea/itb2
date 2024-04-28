@@ -2,6 +2,7 @@ package kz.ilotterytea.bot.builtin.spam;
 
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.permissions.Permission;
 import kz.ilotterytea.bot.entities.permissions.UserPermission;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 import com.github.twitch4j.chat.events.channel.IRCMessageEvent;
 import org.hibernate.Session;
@@ -43,9 +43,9 @@ public class SpamCommand implements Command {
     public List<String> getAliases() { return List.of("спам", "насрать", "repeat", "cv", "paste", "cvpaste"); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
     	if (message.getMessage().isEmpty() || message.getMessage().get().split(" ").length == 1) {
-    		return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+    		return Response.single(Huinyabot.getInstance().getLocale().literalText(
     				channel.getPreferences().getLanguage(),
     				LineIds.NO_MESSAGE
     		));
@@ -59,7 +59,7 @@ public class SpamCommand implements Command {
             count = Integer.parseInt(s.get(0));
             s.remove(0);
         } catch (NumberFormatException e) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.C_SPAM_NOCOUNT
             ));
@@ -80,6 +80,6 @@ public class SpamCommand implements Command {
             );
         }
 
-        return Optional.empty();
+        return null;
     }
 }

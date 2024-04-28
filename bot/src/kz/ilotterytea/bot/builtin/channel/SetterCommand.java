@@ -2,6 +2,7 @@ package kz.ilotterytea.bot.builtin.channel;
 
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.channels.ChannelPreferences;
 import kz.ilotterytea.bot.entities.permissions.Permission;
@@ -42,16 +43,16 @@ public class SetterCommand implements Command {
     public List<String> getAliases() { return Collections.emptyList(); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
         if (message.getSubcommandId().isEmpty()) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_SUBCMD
             ));
         }
         
         if (message.getMessage().isEmpty()) {
-        	return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+        	return Response.single(Huinyabot.getInstance().getLocale().literalText(
         			channel.getPreferences().getLanguage(),
         			LineIds.NO_MESSAGE
         	));
@@ -65,7 +66,7 @@ public class SetterCommand implements Command {
 
 	            session.merge(preferences);
 	
-	            return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+	            return Response.single(Huinyabot.getInstance().getLocale().formattedText(
 	                    preferences.getLanguage(),
 	                    LineIds.C_SET_SUCCESS_PREFIX_SET,
 	                    preferences.getPrefix()
@@ -74,7 +75,7 @@ public class SetterCommand implements Command {
 	        // "Locale", "language" clause.
 	        case "locale":
 	            if (!Huinyabot.getInstance().getLocale().getLocaleIds().contains(message.getMessage().get().toLowerCase())) {
-	                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+	                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
 	                        channel.getPreferences().getLanguage(),
 	                        LineIds.C_SET_SUCCESS_LOCALE_LIST,
 	                        String.join(", ", Huinyabot.getInstance().getLocale().getLocaleIds())
@@ -86,12 +87,12 @@ public class SetterCommand implements Command {
 
 	            session.merge(preferences);
 	
-	            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+	            return Response.single(Huinyabot.getInstance().getLocale().literalText(
 	                    preferences.getLanguage(),
 	                    LineIds.C_SET_SUCCESS_LOCALE_SET
 	            ));
 	        default:
-	        	return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+	        	return Response.single(Huinyabot.getInstance().getLocale().literalText(
 	        			channel.getPreferences().getLanguage(),
 	        			LineIds.UNKNOWN_SUBCOMMAND
 	        	));

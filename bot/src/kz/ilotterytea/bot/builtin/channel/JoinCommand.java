@@ -2,6 +2,7 @@ package kz.ilotterytea.bot.builtin.channel;
 
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.channels.ChannelPreferences;
 import kz.ilotterytea.bot.entities.permissions.Permission;
@@ -42,7 +43,7 @@ public class JoinCommand implements Command {
     public List<String> getAliases() { return Collections.singletonList("зайти"); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
         // Getting the sender's local channel info if it exists:
         List<Channel> userChannels = session.createQuery("from Channel where aliasId = :aliasId", Channel.class)
                 .setParameter("aliasId", user.getAliasId())
@@ -68,7 +69,7 @@ public class JoinCommand implements Command {
             	
             	session.persist(userChannel);
             } else {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                 		channel.getPreferences().getLanguage(),
                         LineIds.C_JOIN_ALREADYIN,
                         channel.getAliasName()
@@ -78,7 +79,7 @@ public class JoinCommand implements Command {
 
         Huinyabot.getInstance().getClient().getChat().joinChannel(userChannel.getAliasName());
 
-        return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+        return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                 channel.getPreferences().getLanguage(),
                 LineIds.C_JOIN_SUCCESS,
                 userChannel.getAliasName()

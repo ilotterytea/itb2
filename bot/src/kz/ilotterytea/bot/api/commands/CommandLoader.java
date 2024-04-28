@@ -1,5 +1,6 @@
 package kz.ilotterytea.bot.api.commands;
 
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.Action;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.permissions.UserPermission;
@@ -61,8 +62,8 @@ public class CommandLoader extends ClassLoader {
      * @author ilotterytea
      * @return response
      */
-    public Optional<String> call(String nameId, Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
-        Optional<String> response = Optional.empty();
+    public Optional<Response> call(String nameId, Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+        Optional<Response> response = Optional.empty();
 
         if (COMMANDS.containsKey(nameId)) {
             Command cmd = COMMANDS.get(nameId);
@@ -97,7 +98,7 @@ public class CommandLoader extends ClassLoader {
             session.merge(user);
 
             try {
-                response = cmd.run(session, event, message, channel, user, permission);
+                response = Optional.ofNullable(cmd.run(session, event, message, channel, user, permission));
             } catch (Exception e) {
                 LOGGER.error(String.format("Error occurred while running the %s command", nameId), e);
             }

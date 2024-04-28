@@ -6,6 +6,7 @@ import com.google.gson.reflect.TypeToken;
 import kz.ilotterytea.bot.Huinyabot;
 import kz.ilotterytea.bot.SharedConstants;
 import kz.ilotterytea.bot.api.commands.Command;
+import kz.ilotterytea.bot.api.commands.responses.Response;
 import kz.ilotterytea.bot.entities.channels.Channel;
 import kz.ilotterytea.bot.entities.permissions.Permission;
 import kz.ilotterytea.bot.entities.permissions.UserPermission;
@@ -15,14 +16,12 @@ import kz.ilotterytea.bot.models.serverresponse.ivr.UserInfo;
 import kz.ilotterytea.bot.utils.ParsedMessage;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import org.hibernate.Session;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * A command for checking if user is banned.
@@ -49,9 +48,9 @@ public class UserIdCheckCommand implements Command {
     public List<String> getAliases() { return List.of("uid", "isbanned"); }
 
     @Override
-    public Optional<String> run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
+    public Response run(Session session, IRCMessageEvent event, ParsedMessage message, Channel channel, User user, UserPermission permission) {
         if (message.getMessage().isEmpty()) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.NO_MESSAGE
             ));
@@ -97,9 +96,9 @@ public class UserIdCheckCommand implements Command {
 
         ArrayList<String> results = new ArrayList<>();
 
-        try (Response response = client.newCall(request).execute()) {
+        try (okhttp3.Response response = client.newCall(request).execute()) {
             if (response.body() == null || response.code() != 200) {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().formattedText(
+                return Response.single(Huinyabot.getInstance().getLocale().formattedText(
                         channel.getPreferences().getLanguage(),
                         LineIds.HTTP_ERROR,
                         String.valueOf(response.code()),
@@ -110,7 +109,7 @@ public class UserIdCheckCommand implements Command {
             List<UserInfo> userInfos = new Gson().fromJson(response.body().string(), new TypeToken<List<UserInfo>>(){}.getType());
 
             if (userInfos.isEmpty()) {
-                return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+                return Response.single(Huinyabot.getInstance().getLocale().literalText(
                         channel.getPreferences().getLanguage(),
                         LineIds.NO_TWITCH_USER
                 ));
@@ -126,12 +125,12 @@ public class UserIdCheckCommand implements Command {
             }
 
         } catch (IOException e) {
-            return Optional.ofNullable(Huinyabot.getInstance().getLocale().literalText(
+            return Response.single(Huinyabot.getInstance().getLocale().literalText(
                     channel.getPreferences().getLanguage(),
                     LineIds.SOMETHING_WENT_WRONG
             ));
         }
 
-        return Optional.of(String.join(" | ", results));
+        return Response.single(String.join(" | ", results));
     }
 }
