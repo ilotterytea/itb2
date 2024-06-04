@@ -1,0 +1,2 @@
+include 'bot', 'api'
+rootProject.name = 'huinya'

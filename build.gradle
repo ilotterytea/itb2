@@ -1,0 +1,44 @@
+allprojects {
+    apply plugin: "eclipse"
+
+    group 'kz.ilotterytea'
+    version '1.5.0'
+
+    repositories {
+        mavenCentral()
+    }
+
+    ext {
+        appName = "huinyabot"
+    }
+}
+
+project(":bot") {
+    apply plugin: 'java'
+
+    dependencies {
+        implementation 'com.github.twitch4j:twitch4j:1.14.0'
+        implementation 'ch.qos.logback:logback-classic:1.3.5'
+        implementation 'com.google.code.gson:gson:2.10'
+        implementation 'org.jsoup:jsoup:1.15.3'
+        implementation 'org.java-websocket:Java-WebSocket:1.5.3'
+        implementation 'org.reflections:reflections:0.10.2'
+        implementation 'com.google.guava:guava:31.1-android'
+        implementation 'com.squareup.okhttp3:okhttp'
+        implementation 'org.hibernate.orm:hibernate-core:6.2.0.Final'
+        implementation 'org.postgresql:postgresql:42.6.0'
+    }
+}
+
+project(":api") {
+    apply plugin: 'java'
+
+    dependencies {
+        annotationProcessor("io.micronaut:micronaut-http-validation")
+        implementation("io.micronaut:micronaut-http-client")
+        implementation("io.micronaut:micronaut-jackson-databind")
+        implementation("jakarta.annotation:jakarta.annotation-api")
+        implementation("io.micronaut.serde:micronaut-serde-jackson")
+        runtimeOnly("ch.qos.logback:logback-classic")
+    }
+}
