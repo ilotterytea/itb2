@@ -1,0 +1,503 @@
+{
+    "msg.arrive": {
+        "en_us": "${0}",
+        "ru_ru": "${0}"
+    },
+    "msg.leave": {
+        "en_us": "${0}",
+        "ru_ru": "${0}"
+    },
+    "msg.joined": {
+        "en_us": "@${TARGET.NAME}, Hi! FeelsDankMan 👋",
+        "ru_ru": "@${TARGET.NAME}, Привет! FeelsDankMan 👋"
+    },
+    "msg.test": {
+        "en_us": "${0} ${1} successfully completed!",
+        "ru_ru": "${0} ${1} успешно завершён!"
+    },
+    "msg.error": {
+        "en_us": "@${USER.NAME}, an error occurred while executing the command. FeelsDankMan",
+        "ru_ru": "@${USER.NAME}, произошла ошибка при выполнении команды. FeelsDankMan"
+    },
+    "msg.banned": {
+        "en_us": "⛔ NOTICE: The bot ${0} has been banned from ${1}'s chat room.",
+        "ru_ru": "⛔ ОПОВЕЩЕНИЕ: Бот ${0} был забанен в чате ${1}."
+    },
+    "msg.usage": {
+        "en_us": "@${USER.NAME}, ${0} Description: ${1} Cooldown: ${2} Details: ${3}",
+        "ru_ru": "@${USER.NAME}, ${0} Краткое описание: ${1} Остывание: ${2} Остальные детали: ${3}"
+    },
+    "msg.api_error": {
+        "en_us": "@${USER.NAME}, The API returned the status code: ${1}",
+        "ru_ru": "@${USER.NAME}, API вернул код состояния: ${1}"
+    },
+    "msg.wrong_option": {
+        "en_us": "@${USER.NAME}, wrong value for option ${0}. Maybe you should try ${0} ${1} ?",
+        "ru_ru": "@${USER.NAME}, неверный параметр для опции ${0}. Может быть вам стоит попробывать ${0} ${1} ?"
+    },
+    "measure.megabytes": {
+        "en_us": "Mbytes",
+        "ru_ru": "Мбайтов"
+    },
+    "emoteupdater.new_emotes": {
+        "en_us": "${0} New Emotes: ${1}",
+        "ru_ru": "${0} Новые эмоуты: ${1}"
+    },
+    "emoteupdater.deleted_emotes": {
+        "en_us": "${0} Deleted Emotes: ${1}",
+        "ru_ru": "${0} Удалённые эмоуты: ${1}"
+    },
+    "emoteupdater.user_added_emote": {
+        "en_us": "${0} ${1} added the emote ${2}",
+        "ru_ru": "${0} ${1} добавил(-а) эмоут ${2}"
+    },
+    "emoteupdater.user_deleted_emote": {
+        "en_us": "${0} ${1} removed the emote ${2}",
+        "ru_ru": "${0} ${1} удалил(-а) эмоут ${2}"
+    },
+    "emoteupdater.user_updated_emote": {
+        "en_us": "${0} ${1} changed the emote name ${2} to ${3}",
+        "ru_ru": "${0} ${1} редактировал(-а) имя эмоута с ${2} на ${3}"
+    },
+    "mode.descending": {
+        "en_us": "descending",
+        "ru_ru": "по убыванию"
+    },
+    "mode.ascending": {
+        "en_us": "ascending",
+        "ru_ru": "по возрастанию"
+    },
+    "timer.new": {
+        "en_us": "@${USER.NAME}, the timer ${0} created.",
+        "ru_ru": "@${USER.NAME}, таймер ${0} создан!"
+    },
+    "timer.exists": {
+        "en_us": "@${USER.NAME}, timer with name ${0} already exists!",
+        "ru_ru": "@${USER.NAME}, таймер с именем ${0} уже существует!"
+    },
+    "timer.not_exists": {
+        "en_us": "@${USER.NAME}, the timer ${0} not exists!",
+        "ru_ru": "@${USER.NAME}, таймер с именем ${0} не существует!"
+    },
+    "timer.removed": {
+        "en_us": "@${USER.NAME}, timer ${0} removed!",
+        "ru_ru": "@${USER.NAME}, таймер с именем ${0} удалён!"
+    },
+    "timer.disabled": {
+        "en_us": "@${USER.NAME}, timer ${0} is disabled!",
+        "ru_ru": "@${USER.NAME}, таймер ${0} выключен!"
+    },
+    "timer.enabled": {
+        "en_us": "@${USER.NAME}, timer ${0} is enabled!",
+        "ru_ru": "@${USER.NAME}, таймер ${0} включен!"
+    },
+    "timer.info": {
+        "en_us": "@${USER.NAME}, Timer ${0} (${1}). Interval: ${2}. Responses (${3}): ${4}",
+        "ru_ru": "@${USER.NAME}, Таймер ${0} (${1}). Интервал: ${2}. Сообщения (${3}): ${4}"
+    },
+    "timer.list": {
+        "en_us": "@${USER.NAME}, List of ${TARGET.NAME}'s (${TARGET.ID}) chat room timers: ${0}",
+        "ru_ru": "@${USER.NAME}, Список таймеров чата ${TARGET.NAME} (${TARGET.ID}): ${0}"
+    },
+    "timer.incorrect_interval": {
+        "en_us": "@${USER.NAME}, you tried to set the timer ${0} with incorrect interval: ${1}",
+        "ru_ru": "@${USER.NAME}, вы пытались установить таймер ${0} с неправильным интервалом: ${1}"
+    },
+    "staticcmd.new": {
+        "en_us": "@${USER.NAME}, Successfully created a new command ${0} for ${1}'s chat room!",
+        "ru_ru": "@${USER.NAME}, Успешно создана новая команда ${0} для канала ${1}!"
+    },
+    "staticcmd.already_exists": {
+        "en_us": "@${USER.NAME}, Name ${0} for commands is already occupied!",
+        "ru_ru": "@${USER.NAME}, Название ${0} для команд уже занято!"
+    },
+    "staticcmd.remove": {
+        "en_us": "@${USER.NAME}, Successfully removed the command ${0} from ${1}'s chat room!",
+        "ru_ru": "@${USER.NAME}, Успешно удалена команда ${0} с канала ${1}!"
+    },
+    "staticcmd.not_exists": {
+        "en_us": "@${USER.NAME}, Command ${0} is not exists!",
+        "ru_ru": "@${USER.NAME}, Команды ${0} не существует!"
+    },
+    "staticcmd.enable": {
+        "en_us": "@${USER.NAME}, Command ${0} is enabled!",
+        "ru_ru": "@${USER.NAME}, Команда ${0} включена!"
+    },
+    "staticcmd.disable": {
+        "en_us": "@${USER.NAME}, Command ${0} is disabled!",
+        "ru_ru": "@${USER.NAME}, Команда ${0} выключена!"
+    },
+    "staticcmd.push": {
+        "en_us": "@${USER.NAME}, Successfully created a new line (${0}) for command ${1} !",
+        "ru_ru": "@${USER.NAME}, Успешно создана новая линия (${0}) для команды ${1} !"
+    },
+    "staticcmd.not_a_line_id": {
+        "en_us": "@${USER.NAME}, Specified line ID is not a number. (${0})",
+        "ru_ru": "@${USER.NAME}, Указанный ID линии - не число. (${0})"
+    },
+    "staticcmd.push.limit_reached": {
+        "en_us": "@${USER.NAME}, Limit is reached! You can create only ${0} lines for one command.",
+        "ru_ru": "@${USER.NAME}, Лимит превышен! Вы можете создавать максимум ${0} линий для одной команды."
+    },
+    "staticcmd.editline": {
+        "en_us": "@${USER.NAME}, The line ${0} is successfully edited for command ${1} !",
+        "ru_ru": "@${USER.NAME}, Линия ${0} успешно отредактирована для команды ${1} !"
+    },
+    "staticcmd.line_not_exists": {
+        "en_us": "@${USER.NAME}, Line ${0} not exists for command ${1} !",
+        "ru_ru": "@${USER.NAME}, Линия ${0} не существует для команды ${1} !"
+    },
+    "staticcmd.rmline": {
+        "en_us": "@${USER.NAME}, Line ${0} \"${1}\" successfully removed from command ${2} !",
+        "ru_ru": "@${USER.NAME}, Линия ${0} \"${1}\" успешно удалена из команды ${2} !"
+    },
+    "staticcmd.copy": {
+        "en_us": "@${USER.NAME}, Successfully copied the command ${0} from channel ${1}!",
+        "ru_ru": "@${USER.NAME}, Успешно скопирована команда ${0} с канала ${1}!"
+    },
+    "staticcmd.copy.command_not_specified": {
+        "en_us": "@${USER.NAME}, Command to copy not specified!",
+        "ru_ru": "@${USER.NAME}, Команда, которую надо скопировать, не указана!"
+    },
+    "staticcmd.copy.command_not_exists": {
+        "en_us": "@${USER.NAME}, Command ${0} not exists in ${1}'s chat room!",
+        "ru_ru": "@${USER.NAME}, Команды ${0} не существует в чате ${1}!"
+    },
+    "staticcmd.copy.target_not_exists": {
+        "en_us": "@${USER.NAME}, Channel ${0} is not registered for bot.",
+        "ru_ru": "@${USER.NAME}, Канал ${0} не зарегистрирован в боте."
+    },
+    "staticcmd.list": {
+        "en_us": "@${USER.NAME}, The list of all ${2}'s static commands (${0}): ${1}",
+        "ru_ru": "@${USER.NAME}, Список всех статических команд ${2} (${0}): ${1}"
+    },
+    "staticcmd.list.no_cmds": {
+        "en_us": "@${USER.NAME}, ${0}'s chat room have no static commands.",
+        "ru_ru": "@${USER.NAME}, В чате ${0} нету никаких команд."
+    },
+    "staticcmd.info": {
+        "en_us": "@${USER.NAME}, ${0} (${1}). Lines (${2}): ${3}",
+        "ru_ru": "@${USER.NAME}, ${0} (${1}). Линии (${2}): ${3}"
+    },
+    "staticcmd.specify_command": {
+        "en_us": "@${USER.NAME}, Please, specify the command.",
+        "ru_ru": "@${USER.NAME}, Пожалуйста, укажите команду."   
+    },
+    "gh.push": {
+        "en_us": "peepoChat 🐙 🐱 ${0} pushed a new commit (${1}) in ${2}: ${3} [${4}+ ${5}- ${6}=]",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} загрузил новый коммит (${1}) в ${2}: ${3} [${4}+ ${5}- ${6}=]"
+    },
+    "gh.issue.opened": {
+        "en_us": "peepoChat 🐙 🐱 ${0} opened a new issue ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} открыл новую проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.edited": {
+        "en_us": "peepoChat 🐙 🐱 ${0} edited the issue ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} отредактировал проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.deleted": {
+        "en_us": "peepoChat 🐙 🐱 ${0} deleted the issue ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} удалил проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.pinned": {
+        "en_us": "peepoChat 🐙 🐱 ${0} pinned the issue ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} закрепил проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.unpinned": {
+        "en_us": "peepoChat 🐙 🐱 ${0} unpinned the issue ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} открепил проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.closed": {
+        "en_us": "peepoChat 🐙 🐱 ${0} closed the issue ${1} in  ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} закрыл проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.reopened": {
+        "en_us": "peepoChat 🐙 🐱 ${0} reopened the issue ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} заново открыл проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.assigned": {
+        "en_us": "peepoChat 🐙 🐱 ${0} assigned issue ${1} to ${5} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} привязал проблему ${1} к ${5} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.unassigned": {
+        "en_us": "peepoChat 🐙 🐱 ${0} unassigned issue ${1} from ${5} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} отвязал проблему ${1} от ${5} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.labeled": {
+        "en_us": "peepoChat 🐙 🐱 ${0} labeled the issue ${1} as ${5} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} повесил ярлык ${5} на проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.unlabeled": {
+        "en_us": "peepoChat 🐙 🐱 ${0} unlabeled the issue ${1} as ${5} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} снял ярлык ${5} с проблемы ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.locked": {
+        "en_us": "peepoChat 🐙 🐱 ${0} locked the issue ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} заблокировал проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.unlocked": {
+        "en_us": "peepoChat 🐙 🐱 ${0} unlocked the issue ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} разблокировал проблему ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.issue.transferred": {
+        "en_us": "peepoChat 🐙 🐱 ${0} transferred the issue ${1} from ${2} to ${5}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} перенёс проблему ${1} из ${2} в ${5}: ${3} (${4})"
+    },
+    "gh.issue_comment.created": {
+        "en_us": "peepoChat 🐙 🐱 ${0} commented in the issue ${1} (by ${2}) of ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} оставил своё мнение о проблеме ${1} в ${2}: ${3} - (${4})"
+    },
+    "gh.issue_comment.edited": {
+        "en_us": "peepoChat 🐙 🐱 ${0} edited the comment in the issue ${1} of ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} изменил своё мнение о проблеме ${1} в ${2} - ${3}"
+    },
+    "gh.issue_comment.deleted": {
+        "en_us": "peepoChat 🐙 🐱 ${0} deleted the comment in the issue ${1} of ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} стёр своё мнение о проблеме ${1} в ${2} - ${3}"
+    },
+    "gh.branch.created": {
+        "en_us": "peepoChat 🐙 🐱 ${0} created a new branch ${1} in ${2}!",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} создал новую ветку ${1} в ${2}!"
+    },
+    "gh.branch.deleted": {
+        "en_us": "peepoChat 🐙 🐱 ${0} removed the branch ${1} in ${2}!",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} удалил ветку ${1} в ${2}!"
+    },
+    "gh.pcard.created": {
+        "en_us": "peepoChat 🐙 🐱 ${0} created a new project card in ${1} (${2}): ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} создал новую карточку в проекте ${1} (${2}): ${3} (${4})"
+    },
+    "gh.pcard.edited": {
+        "en_us": "peepoChat 🐙 🐱 ${0} edited the \"${4}\" project card of ${1} (${2}): ${3}",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} отредактировал карточку \"${4}\" в проекте ${1} (${2}): ${3}"
+    },
+    "gh.pcard.moved": {
+        "en_us": "peepoChat 🐙 🐱 ${0} moved the \"${1}\" card from ${2} to ${3} in ${4} (${5}): ${6}",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} переместил карточку \"${1}\" из ${2} в ${3} в проекте ${4} (${5}): ${6}"
+    },
+    "gh.pcard.converted": {
+        "en_us": "peepoChat 🐙 🐱 ${0} converted the \"${1}\" card to issue ${2} from ${3} project (${4}): ${5}",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} конвертировал карточку \"${1}\" в проблему ${2} из проекта ${3} (${4}): ${5}"
+    },
+    "gh.pcard.deleted": {
+        "en_us": "peepoChat 🐙 🐱 ${0} deleted the \"${1}\" card from ${2} project (${3})!",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} удалил карточку \"${1}\" из проекта ${2} (${3})!"
+    },
+    "gh.project.created": {
+        "en_us": "peepoChat 🐙 🐱 ${0} created a new project \"${1}\" in ${2}: ${3}",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} создал новый проект \"${1}\" в ${2}: ${3}"
+    },
+    "gh.project.edited": {
+        "en_us": "peepoChat 🐙 🐱 ${0} edited the project \"${1}\" in ${2}: ${3}",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} отредактировал проект \"${1}\" в ${2}: ${3}"
+    },
+    "gh.project.closed": {
+        "en_us": "peepoChat 🐙 🐱 ${0} closed the project \"${1}\" in ${2}: ${3}",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} закрыл проект \"${1}\" в ${2}: ${3}"
+    },
+    "gh.project.reopened": {
+        "en_us": "peepoChat 🐙 🐱 ${0} reopened the project \"${1}\" in ${2}: ${3}",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} заново открыл проект \"${1}\" в ${2}: ${3}"
+    },
+    "gh.project.deleted": {
+        "en_us": "peepoChat 🐙 🐱 ${0} deleted the project \"${1}\" from ${2}!",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} удалил проект \"${1}\" из ${2}!"
+    },
+    "gh.release.published": {
+        "en_us": "peepoChat 🐙 🐱 ${0} published a new ${1} release: ${2} (${3})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} опубликовал новый выпуск ${1}: ${2} (${3})"
+    },
+    "gh.dependabot.alert": {
+        "en_us": "peepoChat 🐙 🐱 ⚠ ${0} has a vulnerability risk! Affected package: ${1} (${2} range, ${4}). Fixed in ${3}",
+        "ru_ru": "peepoChat 🐙 🐱 ⚠ ${0} имеет риск уязвимости! Затронутый пакет: ${1} (${2} отрезок, ${4}). Исправлено в ${3}"
+    },
+    "gh.pr.opened": {
+        "en_us": "peepoChat 🐙 🐱 ${0} opened a new PR ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} открыл новый ПР ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.pr.closed": {
+        "en_us": "peepoChat 🐙 🐱 ${0} closed the PR ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} закрыл ПР ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.pr.reopened": {
+        "en_us": "peepoChat 🐙 🐱 ${0} reopened the PR ${1} in ${2}: ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} заново открыл ПР ${1} в ${2}: ${3} (${4})"
+    },
+    "gh.pr.ready_for_review": {
+        "en_us": "peepoChat 🐙 🐱 PR ${0} is ready for review in ${1} (${2})",
+        "ru_ru": "peepoChat 🐙 🐱 ПР ${0} готов на рассмотрение в ${1} (${2})"
+    },
+    "gh.pr.assigned": {
+        "en_us": "peepoChat 🐙 🐱 ${0} assigned the PR ${1} to ${2} in ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} привязал ПР ${1} к ${2} в ${3} (${4})"
+    },
+    "gh.pr.unassigned": {
+        "en_us": "peepoChat 🐙 🐱 ${0} unassigned the PR ${1} from ${2} in ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} отвязал ПР ${1} от ${2} в ${3} (${4})"
+    },
+    "gh.pr.labeled": {
+        "en_us": "peepoChat 🐙 🐱 ${0} labeled the PR ${1} as ${2} in ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} повесил ярлык ${2} на ПР ${1} в ${3} (${4})"
+    },
+    "gh.pr.unlabeled": {
+        "en_us": "peepoChat 🐙 🐱 ${0} unlabeled the PR ${1} as ${2} in ${3} (${4})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} убрал ярлык ${2} из ПР ${1} в ${3} (${4})"
+    },
+    "gh.pr.locked": {
+        "en_us": "peepoChat 🐙 🐱 ${0} locked the PR ${1} in ${2} (${3})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} заблокировал ПР ${1} в ${2} (${3})"
+    },
+    "gh.pr.unlocked": {
+        "en_us": "peepoChat 🐙 🐱 ${0} unlocked the PR ${1} в ${2} (${3})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} разблокировал ПР ${1} в ${2} (${3})"
+    },
+    "gh.pr_review.submitted": {
+        "en_us": "peepoChat 🐙 🐱 ${0} reviewed and submitted the PR ${1}: ${3} (${2})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} рассмотрел и подтвердил ПР ${1}: ${3} (${2})"
+    },
+    "gh.pr_review.edited": {
+        "en_us": "peepoChat 🐙 🐱 ${0} reviewed and edited the PR ${1}: ${3} (${2})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} рассмотрел и отредактировал ПР ${1}: ${3} (${2})"
+    },
+    "gh.pr_review.dismissed": {
+        "en_us": "peepoChat 🐙 🐱 ${0} reviewed and dismissed the PR ${1}: ${3} (${2})",
+        "ru_ru": "peepoChat 🐙 🐱 ${0} рассмотрел и отклонил ПР ${1}: ${3} (${2})"
+    },
+    "cmd.ping.response": {
+        "en_us": "@${USER.NAME}, FeelsDankMan 🏓 Pong! Session uptime: ${UPTIMEF}. Made ${4} word chains. Landed in ${3} channels. Memory usage: ${0} @{MEASURE.MEGABYTES} / ${1} @{MEASURE.MEGABYTES}. Latency to TMI: ${2}ms. Running on version ${PCK.VERSION} (${PCK.NAME}) (Commit ${GIT.SHORT} [${GIT.BRANCH}])",
+        "ru_ru": "@${USER.NAME}, FeelsDankMan 🏓 Понг! Сессия активна: ${UPTIMEF}. Слепил ${4} цепочек слов. Приземлён в ${3} каналах. Потребление ОЗУ: ${0} @{MEASURE.MEGABYTES} / ${1} @{MEASURE.MEGABYTES}. Задержка до TMI: ${2}ms. Работает на версии ${PCK.VERSION} (${PCK.NAME}) (Фиксация ${GIT.SHORT} [${GIT.BRANCH}])"
+    },
+    "cmd.ecount.response": {
+        "en_us": "${0} ${1} has been used ${2} times.",
+        "ru_ru": "${0} ${1} был использован ${2} раз."
+    },
+    "cmd.ecount.not_found": {
+        "en_us": "${0} Emote ${1} not found in database.",
+        "ru_ru": "${0} Эмоут ${1} не был найден в базе данных."
+    },
+    "cmd.etop.response": {
+        "en_us": "Top ${0} ${1} emotes (${2}): ${3}",
+        "ru_ru": "${0} самых используемых ${1} эмоутов (${2}): ${3}"
+    },
+    "cmd.etop.limit_reached": {
+        "en_us": "@${USER.NAME}, limit is reached. You can view no more than the top ${0} emotes. Emotes above ${0}th place can be found here: https://bot.hmmtodayiwill.ru/channel/${1}",
+        "ru_ru": "@${USER.NAME}, лимит превышен. Вы можете просматривать не больше топ ${0} эмоутов. Эмоуты, выше ${0} места можно найти здесь: https://bot.hmmtodayiwill.ru/channel/${1}"
+    },
+    "cmd.join.response": {
+        "en_us": "@${USER.NAME}, Succesfully joined to ${0}'s (${1}) chat room! ",
+        "ru_ru": "@${USER.NAME}, Успешно присоединён к чату ${0} (${1})!"
+    },
+    "cmd.join.already_in": {
+        "en_us": "@${USER.NAME}, User ${0} (${1}) is already in join array.",
+        "ru_ru": "@${USER.NAME}, Пользователь ${0} (${1}) уже находится в списке каналов."
+    },
+    "cmd.spam.limit_reached": {
+        "en_us": "@${USER.NAME}, limit reached. Max messages to spam: ${0}",
+        "ru_ru": "@${USER.NAME}, лимит превышен. Максимальное кол-во сообщений, которые может быть проспамлено: ${0}"
+    },
+    "cmd.spam.unresolved_number": {
+        "en_us": "@${USER.NAME}, Unresolved number of required spam message (${0}).",
+        "ru_ru": "@${USER.NAME}, Нерешённое количество нужного спама сообщения (${0})."
+    },
+    "cmd.spam.forbidden_symbol": {
+        "en_us": "@${USER.NAME}, Found the forbidden symbol in spam message.",
+        "ru_ru": "@${USER.NAME}, Найден запрещённый символ в сообщении для спама."
+    },
+    "cmd.system.restart": {
+        "en_us": "forsenSpin restarting...",
+        "ru_ru": "forsenSpin перезагружаюсь..."
+    },
+    "cmd.system.poweroff": {
+        "en_us": "forsenLevel 👋 bye bye",
+        "ru_ru": "forsenLevel 👋 пока пока"
+    },
+    "cmd.system.pull": {
+        "en_us": "forsenLevel pulling from ${GIT.BRANCH} branch...",
+        "ru_ru": "forsenLevel получаю из ветки ${GIT.BRANCH}..."
+    },
+    "cmd.system.pulled": {
+        "en_us": "beanchili pulled new commit from ${GIT.BRANCH} branch! Commit description: ${GIT.MESSAGE}",
+        "ru_ru": "beanchili получил новую фиксацию из ветки ${GIT.BRANCH}! Описание фиксации: ${GIT.MESSAGE}"
+    },
+    "cmd.system.not_found": {
+        "en_us": "forsenLevel Mode ${0} not found for !system command.",
+        "ru_ru": "forsenLevel Режим ${0} не найден для команды !system."
+    },
+    "cmd.user.lookup.bio": {
+        "en_us": "📜 Bio: ${0}",
+        "ru_ru": "📜 Биография: ${0}"
+    },
+    "cmd.user.lookup.color": {
+        "en_us": "🖌 Color: ${0}",
+        "ru_ru": "🖌 Цвет: ${0}"
+    },
+    "cmd.user.lookup.partner": {
+        "en_us": "✅ Got an partner status!",
+        "ru_ru": "✅ Получил статус партнёра!"
+    },
+    "cmd.user.lookup.affiliate": {
+        "en_us": "✅ Got an affiliate status!",
+        "ru_ru": "✅ Получил статус компаньона!"
+    },
+    "cmd.user.lookup.bot": {
+        "en_us": "🤖 Is a bot",
+        "ru_ru": "🤖 Является ботом"
+    },
+    "cmd.user.lookup.banned": {
+        "en_us": "⛔ Banned!",
+        "ru_ru": "⛔ Забанен!"
+    },
+    "cmd.user.lookup.7tv.joined": {
+        "en_us": "🚪 Joined 7TV on ${0}",
+        "ru_ru": "🚪 Присоединился к 7TV: ${0}"
+    },
+    "cmd.user.lookup.7tv.emotes": {
+        "en_us": "😃 Occupied ${0} of ${1} 7TV emotes",
+        "ru_ru": "😃 Занято ${0} из ${1} 7TV эмоутов"
+    },
+    "cmd.user.lookup.7tv.editors": {
+        "en_us": "✏ ${0} emote editors actively",
+        "ru_ru": "✏ Активно ${0} редакторов эмоутов"
+    },
+    "cmd.user.lookup.7tv.role": {
+        "en_us": "🏷 7TV Role: ${0}",
+        "ru_ru": "🏷 Роль на 7TV: ${0}"
+    },
+    "cmd.user.lookup": {
+        "en_us": "${0} (${1}, ${2})",
+        "ru_ru": "${0} (${1}, ${2})"
+    },
+    "cmd.user.rules": {
+        "en_us": "@${USER.NAME}, FeelsDankMan 🔎📜 The rules of ${0}'s (${1}) chat room: ${2}",
+        "ru_ru": "@${USER.NAME}, FeelsDankMan 🔎📜 Правила чата ${0} (${1}): ${2}"
+    },
+    "cmd.user.picture": {
+        "en_us": "@${USER.NAME}, FeelsDankMan 🔎🖼️ The profile picture of ${0} (${1}) on Twitch: ${2} ${3}",
+        "ru_ru": "@${USER.NAME}, FeelsDankMan 🔎🖼️ Аватарка пользователя ${0} (${1}) на Twitch: ${2} ${3}"
+    },
+    "cmd.set.language.success": {
+        "en_us": "@${USER.NAME}, the bot speaks on English now! KKona",
+        "ru_ru": "@${USER.NAME}, бот теперь говорит по-русски! KKomrade"
+    },
+    "cmd.set.language.not_exists": {
+        "en_us": "@${USER.NAME}, the language ${0} not found.",
+        "ru_ru": "@${USER.NAME}, язык ${0} не найден."
+    },
+    "cmd.set.language.available": {
+        "en_us": "@${USER.NAME}, available localizations: ${LANGUAGES.AVAILABLE}",
+        "ru_ru": "@${USER.NAME}, доступные локализации: ${LANGUAGES.AVAILABLE}"
+    },
+    "cmd.set.prefix.success": {
+        "en_us": "@${USER.NAME}, Successfully set up the new prefix (${0}) for ${TARGET.NAME}",
+        "ru_ru": "@${USER.NAME}, успешно установлен префикс ${0} для канала ${TARGET.NAME}"
+    },
+    "cmd.set.event.seventv.disabled":{
+        "en_us": "@${USER.NAME}, 7TV events (new/deleted/updated emotes) are disabled.",
+        "ru_ru": "@${USER.NAME}, События с 7TV эмоутами (новые/удаленные/обновленные эмоуты) выключены."
+    },
+    "cmd.set.event.seventv.enabled": {
+        "en_us": "@${USER.NAME}, 7TV events (new/deleted/updated emotes) are enabled!",
+        "ru_ru": "@${USER.NAME}, События с 7TV эмоутами (новые/удаленные/обновленные эмоуты) включены!"
+
+    }
+}

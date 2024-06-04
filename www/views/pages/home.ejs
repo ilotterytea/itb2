@@ -1,0 +1,64 @@
+<!--
+ Copyright (C) 2022 NotDankEnough (ilotterytea)
+ 
+ This file is part of itb2.
+ 
+ itb2 is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ 
+ itb2 is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with itb2.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <%- include("../partials/head_meta", { pageurl: "", darkmode: false, pagetitle: "Home" }) %>
+    </head>
+    <body>
+        <div class="wrapper">
+            <div class="content">
+                <section id="name">
+                    <img src="../img/logo.png" id="logo">
+                    <h1 class="rainbow_text_animated" id="name">iLotterytea's Twitch Bot 2</h1>
+                    <div id="links">
+                        <a href="https://github.com/notdankenough/itb2">
+                            <i class="fa-brands fa-github-alt"></i>
+                            Source Code
+                        </a>
+                        <a href="https://twitch.tv/ilotterytea">
+                            <i class="fa-brands fa-twitch"></i>
+                            Twitch
+                        </a>
+                    </div>
+                </section>
+                <section class="home_buttons">
+                    <a href="/commands" class="homebutton">
+                        <span class="material-symbols-outlined">keyboard_command_key</span>
+                        <p>Commands</p>
+                    </a>
+                    <a href="/catalogue?c=targets" class="homebutton">
+                        <span class="material-symbols-outlined">library_books</span>
+                        <p>Catalogue...</p>
+                    </a>
+                    <a href="#" class="homebutton">
+                        <span class="material-symbols-outlined">monitoring</span>
+                        <p>Statistics</p>
+                    </a>
+                    <a href="#" class="homebutton">
+                        <span class="material-symbols-outlined">book</span>
+                        <p>Docs</p>
+                    </a>
+
+                </section>
+            </div>
+        </div>
+    </body>
+</html>

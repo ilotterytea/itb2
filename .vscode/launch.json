@@ -1,0 +1,29 @@
+{
+    "configurations": [
+        {
+            "name": "Bot instance (via ts-node)",
+            "request": "launch",
+            "runtimeArgs": [
+                "index.ts"
+            ],
+            "runtimeExecutable": "ts-node",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+        {
+            "name": "First steps (via ts-node)",
+            "request": "launch",
+            "runtimeArgs": [
+                "./index.ts",
+                "--init"
+            ],
+            "runtimeExecutable": "ts-node",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        }
+    ]
+}
