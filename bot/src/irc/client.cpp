@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <optional>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -14,74 +15,92 @@
 using namespace bot::irc;
 
 void Client::run() {
-  this->websocket.setOnMessageCallback(
-      [this](const ix::WebSocketMessagePtr &msg) {
-        switch (msg->type) {
-          case ix::WebSocketMessageType::Message: {
-            log::debug("IRC", "Received message: " + msg->str);
+  this->websocket.setOnMessageCallback([this](
+                                           const ix::WebSocketMessagePtr &msg) {
+    switch (msg->type) {
+      case ix::WebSocketMessageType::Message: {
+        log::debug("IRC", "Received message: " + msg->str);
 
-            std::vector<std::string> lines =
-                utils::string::split_text(msg->str, '\n');
+        std::vector<std::string> lines =
+            utils::string::split_text(msg->str, '\n');
 
-            for (std::string &line : lines) {
-              line.erase(std::remove_if(line.begin(), line.end(),
-                                        [](char c) {
-                                          return c == '\n' || c == '\r' ||
-                                                 c == '\t';
-                                        }),
-                         line.end());
+        for (std::string &line : lines) {
+          line.erase(
+              std::remove_if(
+                  line.begin(), line.end(),
+                  [](char c) { return c == '\n' || c == '\r' || c == '\t'; }),
+              line.end());
 
-              std::optional<MessageType> type = define_message_type(line);
+          std::optional<MessageType> type = define_message_type(line);
 
-              if (!type.has_value()) {
-                break;
-              }
-
-              MessageType m_type = type.value();
-
-              if (m_type == MessageType::Privmsg) {
-                std::optional<Message<MessageType::Privmsg>> message =
-                    parse_message<MessageType::Privmsg>(line);
-
-                if (message.has_value()) {
-                  this->onPrivmsg(message.value());
-                }
-              } else if (m_type == MessageType::Ping) {
-                // as the docs say, the message should be the same as the one
-                // from the ping
-                std::string response_text = msg->str.substr(4, msg->str.size());
-
-                this->raw("PONG" + response_text);
-              }
-            }
-
+          if (!type.has_value()) {
             break;
           }
-          case ix::WebSocketMessageType::Open: {
-            log::info("IRC", "Connected to Twitch IRC");
-            this->is_connected = true;
-            this->authorize();
-            for (const auto &msg : this->pool) {
-              this->websocket.send(msg);
-            }
-            this->pool.clear();
-            break;
-          }
-          case ix::WebSocketMessageType::Close: {
-            log::info("IRC", "Twitch IRC connection closed");
-            this->is_connected = false;
 
-            for (const auto &x : this->joined_channels) {
-              this->raw("JOIN #" + x);
-            }
+          MessageType m_type = type.value();
 
-            break;
-          }
-          default: {
-            break;
+          if (m_type == MessageType::Privmsg) {
+            std::optional<Message<MessageType::Privmsg>> message =
+                parse_message<MessageType::Privmsg>(line);
+
+            if (message.has_value()) {
+              this->onPrivmsg(message.value());
+            }
+          } else if (m_type == MessageType::Ping) {
+            // as the docs say, the message should be the same as the one
+            // from the ping
+            std::string response_text = msg->str.substr(4, msg->str.size());
+
+            this->raw("PONG" + response_text);
           }
         }
-      });
+
+        break;
+      }
+      case ix::WebSocketMessageType::Open: {
+        log::info("IRC", "Connected to Twitch IRC");
+        this->is_connected = true;
+        this->authorize();
+
+        if (!this->started_up &&
+            this->configuration.fun.send_message_at_startup &&
+            this->configuration.owner.name.has_value()) {
+          this->started_up = true;
+          std::vector<std::string> lines = utils::string::split_text(
+              this->configuration.fun.startup_lines, ',');
+
+          if (!lines.empty()) {
+            std::random_device dev;
+            std::mt19937 rng(dev());
+
+            std::uniform_int_distribution<std::mt19937::result_type> dist(
+                0, lines.size() - 1);
+
+            this->say(this->configuration.owner.name.value(), lines[dist(rng)]);
+          }
+        }
+
+        for (const auto &msg : this->pool) {
+          this->websocket.send(msg);
+        }
+        this->pool.clear();
+        break;
+      }
+      case ix::WebSocketMessageType::Close: {
+        log::info("IRC", "Twitch IRC connection closed");
+        this->is_connected = false;
+
+        for (const auto &x : this->joined_channels) {
+          this->raw("JOIN #" + x);
+        }
+
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  });
 
   this->websocket.start();
 }
