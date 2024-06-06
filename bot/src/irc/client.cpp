@@ -4,46 +4,14 @@
 #include <ixwebsocket/IXWebSocketMessageType.h>
 
 #include <algorithm>
-#include <iostream>
 #include <optional>
 #include <string>
 #include <vector>
 
 #include "../logger.hpp"
-#include "cpr/api.h"
-#include "cpr/cprtypes.h"
-#include "cpr/response.h"
 #include "message.hpp"
-#include "nlohmann/json.hpp"
 
 using namespace bot::irc;
-
-Client::Client(std::string client_id, std::string token) {
-  this->client_id = client_id;
-  this->token = token;
-
-  this->host = "wss://irc-ws.chat.twitch.tv";
-  this->port = "443";
-
-  this->websocket.setUrl(this->host + ":" + this->port);
-
-  // getting token owner
-  cpr::Response response = cpr::Get(
-      cpr::Url{"https://api.twitch.tv/helix/users"}, cpr::Bearer{this->token},
-      cpr::Header{{"Client-Id", this->client_id}});
-
-  if (response.status_code != 200) {
-    log::warn("IRC", "Failed to get bot username from Twitch API: " +
-                         std::to_string(response.status_code) + " " +
-                         response.status_line);
-  } else {
-    nlohmann::json j = nlohmann::json::parse(response.text);
-
-    auto d = j["data"][0];
-    this->id = std::stoi(d["id"].get<std::string>());
-    this->username = d["login"];
-  }
-}
 
 void Client::run() {
   this->websocket.setOnMessageCallback(

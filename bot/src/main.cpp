@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
   }
 
   bot::irc::Client client(cfg.twitch_credentials.client_id,
-                          cfg.twitch_credentials.token);
+                          cfg.twitch_credentials.token, cfg);
   bot::command::CommandLoader command_loader;
   bot::loc::Localization localization("localization");
   bot::api::twitch::HelixClient helix_client(cfg.twitch_credentials.token,
