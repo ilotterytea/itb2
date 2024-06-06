@@ -50,6 +50,14 @@ namespace bot {
         return LineId::ErrorIllegalCommand;
       }
 
+      else if (str == "emote.pushed") {
+        return LineId::EmotePushed;
+      } else if (str == "emote.pulled") {
+        return LineId::EmotePulled;
+      } else if (str == "emote.updated") {
+        return LineId::EmoteUpdated;
+      }
+
       else if (str == "event.on") {
         return LineId::EventOn;
       } else if (str == "event.off") {

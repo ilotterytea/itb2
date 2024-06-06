@@ -27,6 +27,10 @@ namespace bot {
       ErrorInsufficientRights,
       ErrorIllegalCommand,
 
+      EmotePushed,
+      EmotePulled,
+      EmoteUpdated,
+
       PingResponse,
 
       EventOn,

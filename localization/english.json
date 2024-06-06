@@ -20,6 +20,10 @@
   "error.insufficient_rights": "Insufficient rights",
   "error.illegal_command": "Command not available",
 
+  "emote.pushed": "(7TV) %s added %s emote",
+  "emote.pulled": "(7TV) %s removed %s emote",
+  "emote.updated": "(7TV) %s updated the emote name from %s to %s",
+
   "ping.response": "{sender.alias_name}: funnywhitecat Pong! %s Uptime: %s · Used memory: %sMB",
 
   "event.on": "{sender.alias_name}: New event \"%s\" has been successfully created!",

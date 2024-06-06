@@ -12,6 +12,7 @@
 #include "irc/message.hpp"
 #include "localization/localization.hpp"
 #include "logger.hpp"
+#include "seventv/client.hpp"
 #include "stream.hpp"
 #include "timer.hpp"
 
@@ -98,6 +99,7 @@ int main(int argc, char *argv[]) {
 
   bot::stream::StreamListenerClient stream_listener_client(helix_client, client,
                                                            cfg);
+  bot::seventv::Client seventv_client(helix_client, client, cfg, localization);
 
   client.on<bot::irc::MessageType::Privmsg>(
       [&client, &command_loader, &localization, &cfg, &helix_client](
@@ -118,6 +120,7 @@ int main(int argc, char *argv[]) {
   threads.push_back(std::thread(bot::create_timer_thread, &client, &cfg));
   threads.push_back(std::thread(&bot::stream::StreamListenerClient::run,
                                 &stream_listener_client));
+  threads.push_back(std::thread(&bot::seventv::Client::run, &seventv_client));
 
   for (auto &thread : threads) {
     thread.join();

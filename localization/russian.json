@@ -20,11 +20,15 @@
   "error.insufficient_rights": "Недостаточно прав",
   "error.illegal_command": "Команда недоступна",
 
+  "emote.pushed": "(7TV) %s добавил %s эмоут",
+  "emote.pulled": "(7TV) %s удалил %s эмоут",
+  "emote.updated": "(7TV) %s изменил имя эмоута с %s на %s",
+
   "ping.response": "{sender.alias_name}: funnywhitecat Понг! %s Время сессии: %s · ОЗУ: %sМБ",
 
   "event.on": "{sender.alias_name}: Событие \"%s\" успешно создано!",
   "event.off": "{sender.alias_name}: Событие \"%s\" удалено!",
-  
+
   "notify.sub": "{sender.alias_name}: Вы успешно подписались на событие \"%s\"!",
   "notify.unsub": "{sender.alias_name}: Вы отписались от события \"%s\"!",
 
