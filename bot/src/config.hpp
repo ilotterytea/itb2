@@ -42,12 +42,18 @@ namespace bot {
       std::optional<std::string> paste_service = std::nullopt;
   };
 
+  struct FunConfiguration {
+      bool send_message_at_startup = false;
+      std::string startup_lines;
+  };
+
   struct Configuration {
       TwitchCredentialsConfiguration twitch_credentials;
       DatabaseConfiguration database;
       CommandConfiguration commands;
       OwnerConfiguration owner;
       UrlConfiguration url;
+      FunConfiguration fun;
   };
 
   std::optional<Configuration> parse_configuration_from_file(

@@ -24,6 +24,7 @@ namespace bot {
     CommandConfiguration cmd_cfg;
     OwnerConfiguration owner_cfg;
     UrlConfiguration url_cfg;
+    FunConfiguration fun_cfg;
 
     std::string line;
     while (std::getline(ifs, line, '\n')) {
@@ -71,6 +72,12 @@ namespace bot {
       } else if (key == "url.chatters.paste_service") {
         url_cfg.paste_service = value;
       }
+
+      else if (key == "fun.send_message_at_startup") {
+        fun_cfg.send_message_at_startup = std::stoi(value);
+      } else if (key == "fun.startup_lines") {
+        fun_cfg.startup_lines = value;
+      }
     }
 
     cfg.url = url_cfg;
@@ -78,6 +85,7 @@ namespace bot {
     cfg.commands = cmd_cfg;
     cfg.twitch_credentials = ttv_crd_cfg;
     cfg.database = db_cfg;
+    cfg.fun = fun_cfg;
 
     log::info("Configuration",
               "Successfully loaded the file from '" + file_path + "'");
