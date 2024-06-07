@@ -1,7 +1,9 @@
 #include "client.hpp"
 
+#include <chrono>
 #include <optional>
 #include <string>
+#include <thread>
 
 #include "../logger.hpp"
 #include "cpr/api.h"
@@ -116,7 +118,9 @@ namespace bot::seventv {
           break;
         }
         case ix::WebSocketMessageType::Close: {
-          log::info("7TV EventAPI", "Connection closed!");
+          log::info("7TV EventAPI",
+                    "Connection closed! Reconnecting in 2 minutes...");
+          std::this_thread::sleep_for(std::chrono::minutes(2));
           break;
         }
         case ix::WebSocketMessageType::Message: {
